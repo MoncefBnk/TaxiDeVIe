@@ -2,12 +2,24 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import { auth } from '../firebase'
 import ForgotPasswordView from '@/views/ForgotPasswordView.vue';
+import LoginPage from '../components/LoginPage.vue';
+import RegisterPage from '../components/RegisterPage.vue';
 
 
 const routes = [
+  { 
+    path: '/login',
+    name:'Login',
+    component: LoginPage 
+  },
+  { 
+    path: '/register',
+    name:'Register',
+    component: RegisterPage 
+  },
   {
     path: '/',
-    name: 'home',
+    name: 'Home',
     component: HomeView,
     meta: {
       requiresAuth: true
@@ -15,18 +27,14 @@ const routes = [
   },
   {
     path: '/about',
-    name: 'about',
+    name: 'About',
     
     component: () => import('../views/AboutView.vue'),
     meta: {
       requiresAuth: true
     }
   },
-  {
-    path: '/login',
-    name: 'Login',
-    component: () => import ('../views/LoginView.vue'),
-  },
+  
   { path: '/forgot-password',
     name:'ForgotPassword',
     component: ForgotPasswordView },
@@ -39,12 +47,12 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  if(to.path == '/login' && auth.currentUser){
+  if(to.path == '/Login' && auth.currentUser){
     next('/')
     return;
   }
   if (to.matched.some(record => record.meta.requiresAuth) && !auth.currentUser){
-    next('/login')
+    next('/Login')
     return;
   }
   next();
