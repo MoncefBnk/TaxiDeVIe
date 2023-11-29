@@ -4,6 +4,7 @@ import { auth } from '../firebase'
 import ForgotPasswordView from '@/views/ForgotPasswordView.vue';
 import LoginPage from '../components/LoginPage.vue';
 import RegisterPage from '../components/RegisterPage.vue';
+import TrajetView from '../views/TrajetView.vue';
 
 
 const routes = [
@@ -16,6 +17,12 @@ const routes = [
     path: '/register',
     name:'Register',
     component: RegisterPage 
+  },
+  {
+    path: '/Display-trajet',
+    name: 'Trajet',
+    component: TrajetView,
+    
   },
   {
     path: '/',

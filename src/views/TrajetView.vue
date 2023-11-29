@@ -3,6 +3,6 @@
 </template>
 
 
-<script setup lang="ts">
+<script setup >
 import TrajetComponenets from '@/components/TrajetComponenets.vue';
 </script>
