@@ -1,3 +1,4 @@
+
 <template>
   <nav v-if="$store.state.user">
     <router-link to="/">Home</router-link> |
