@@ -2,6 +2,7 @@
 	<main class="login">
 		<section class="forms">
 			<form class="register" @submit.prevent="register">
+				<h2>Welcome to Taxi de vie</h2>
 				<h2>Register</h2>
 				<input type="email" placeholder="Email address" v-model="register_form.email" />
 				<input type="password" placeholder="Password" v-model="register_form.password" />
@@ -9,14 +10,9 @@
 				<input type="phoneNumber" placeholder="Phone Number " v-model="register_form.phoneNumber" />
 				<input type="submit" value="Register" />
         <p>Already have an account ?</p>
-        <router-link to="login" class="login-link">Login here !</router-link>
+        <router-link to="login" class="register-links">Login here !</router-link>
 				<p v-if="passwordsDoNotMatch">Passwords do not match!</p>
 			</form>
-
-      <form class="login">
-				<h2>Welcome to Taxi de vie</h2>
-			</form>
-
 		</section>
 	</main>
 </template>
@@ -58,7 +54,7 @@ export default {
 
 form {
 	flex: 1 1 0%;
-	padding: 8rem 1rem 1rem;
+	padding: 6rem 1rem 1rem;
 }
 
 form.register {
@@ -132,8 +128,8 @@ form.register input[type="submit"] {
 	cursor: pointer;
 	text-transform: uppercase;
 }
-.forgot-password-link {
-	color: #3498db; 
+.register-links {
+	color: #FFF; 
 	text-decoration: underline;
 	cursor: pointer;
 	margin-bottom: 2rem;
