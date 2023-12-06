@@ -1,5 +1,18 @@
 <template>
-  <main class="home">
-    <h1>Home</h1>
-  </main>
+  <div class="home-container">
+    <HomeCompo />
+  </div>
 </template>
+
+<script>
+import HomeCompo from '@/components/HomeCompo.vue';
+
+export default {
+  components: {
+    HomeCompo,
+  },
+};
+</script>
+
+<style>
+</style>

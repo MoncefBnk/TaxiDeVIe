@@ -87,13 +87,9 @@ input {
 	border: none;
 	outline: none;
 	background: none;
-
-	display: block;
 	width: 100%;
 	max-width: 400px;
-	margin: 0 auto;
-	font-size: 1.5rem;
-	margin-bottom: 2rem;
+	margin: 1em;
 	padding: 0.5rem 0rem;
 }
 

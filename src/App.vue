@@ -1,50 +1,47 @@
 <template>
-  <nav v-if="$store.state.user">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-    <button @click="$store.dispatch('logout')">Logout</button> 
-  </nav>
-  <router-view/>
+  <div id="app">
+    <router-view />
+  </div>
 </template>
 
 <script>
-import { onBeforeMount } from 'vue'
-import { useStore } from 'vuex'
+import { ref, onBeforeMount } from 'vue';
+import { useStore } from 'vuex';
 
 export default {
-  setup(){
-    const store = useStore()
-    onBeforeMount(() => {
-      store.dispatch('fetchUser')
-    })
-  }
-}
+  setup() {
+    const store = useStore();
+    const user = ref(null);
+
+    onBeforeMount(async () => {
+      await store.dispatch('fetchUser');
+      user.value = store.state.user;
+    });
+
+    store.watch(
+      () => store.state.user,
+      (newUser) => {
+        user.value = newUser;
+      }
+    );
+
+    return { user };
+  },
+};
 </script>
 
 <style>
-* {
+  body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-}
-#app {
+  }
+
+  #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-}
-
-nav {
-  padding: 30px;
-}
-
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-nav a.router-link-exact-active {
-  color: #42b983;
 }
 </style>
