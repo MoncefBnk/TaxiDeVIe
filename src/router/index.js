@@ -3,7 +3,6 @@ import HomeView from '../views/HomeView.vue';
 import ForgotPasswordView from '@/views/ForgotPasswordView.vue';
 import LoginPage from '../components/LoginPage.vue';
 import RegisterPage from '../components/RegisterPage.vue';
-import TrajetView from '../views/TrajetView.vue';
 import BookingForm from '@/components/BookingForm.vue';
 import DashBoard from '@/components/DashBoard.vue';
 import { auth } from '@/firebase'; 
@@ -13,7 +12,6 @@ const routes = [
   { path: '/login', name: 'Login', component: LoginPage },
   { path: '/register', name: 'Register', component: RegisterPage },
   { path: '/dashboard', name: 'Dashboard', component: DashBoard, meta: { requiresAuth: true } },
-  { path: '/Display-trajet', name: 'Trajet', component: TrajetView },
   { path: '/forgot-password', name: 'ForgotPassword', component: ForgotPasswordView },
   { path: '/booking', name: 'Booking', component: BookingForm, meta: { requiresAuth: true } },
 ];
