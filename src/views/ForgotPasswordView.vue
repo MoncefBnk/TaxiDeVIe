@@ -1,19 +1,18 @@
 <!-- ForgotPassword.vue -->
 <template>
-  <main class="login">
-
+  
     <form class="login-form" @submit.prevent="resetPassword">
       <h2>Forgot Password</h2>
       <div class="form-group">
-        <label for="email">Email address</label>
-        <input type="email" id="email" placeholder="Enter your email" v-model="email" />
+        <p class="help-text">Please enter your email adress that you have registered with, if it matches we will send you a recovery link</p>
+        <input type="email" placeholder="Email address" v-model="email" />
       </div>
       <button type="submit" class="reset-password-btn">Reset Password</button>
       <router-link to="/login" class="go-back-link">Go Back to Login</router-link>
     </form>
 
 
-  </main>
+
 </template>
   
 <script>
@@ -44,8 +43,6 @@ export default {
 </script>
   
 <style scoped>
-/* Match the styles with the login page */
-
 .login {
   display: flex;
   justify-content: center;
@@ -53,16 +50,23 @@ export default {
   height: 100vh;
 }
 
-.login-form {
-  background-color: #fff;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  max-width: 400px;
-  width: 100%;
+.passowrd-recovery {
+	display: flex;
+	min-height: 100vh;
 }
+
+passowrd-recovery {
+	flex: 1 1 0%;
+	padding: 8rem 1rem 1rem;
+}
+
+
 
 .form-group {
   margin-bottom: 20px;
+}
+.help-text{
+ padding: 1vh;
 }
 
 label {

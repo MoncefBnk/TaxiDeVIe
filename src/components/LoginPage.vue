@@ -1,19 +1,17 @@
 <template>
 	<main class="login">
 		<section class="forms">
-			<form class="register" @submit.prevent="register">
-				<h2>Welcome to Taxi de vie</h2>
-				<p v-if="passwordsDoNotMatch">Passwords do not match!</p>
-			</form>
+			
 
 			<form class="login" @submit.prevent="login">
+				<h2>Welcome to Taxi de vie</h2>
 				<h2>Login</h2>
 				<input type="email" placeholder="Email address" v-model="login_form.email" />
 				<input type="password" placeholder="Password" v-model="login_form.password" />
-				<router-link to="/forgot-password" class="forgot-password-link">Forgot Password?</router-link>
+				<router-link to="/forgot-password" class="links">Forgot Password?</router-link>
 				<input type="submit" value="Login" />
 				<p>Don't have an account yet ?</p>
-				<router-link to="/register" class="register">Create an account now !</router-link>
+				<router-link to="/register" class="links">Create an account now !</router-link>
 			</form>
 		</section>
 	</main>
@@ -136,7 +134,7 @@ form.register input[type="submit"] {
 	cursor: pointer;
 	text-transform: uppercase;
 }
-.forgot-password-link {
+.links {
 	color: #3498db; 
 	text-decoration: underline;
 	cursor: pointer;
