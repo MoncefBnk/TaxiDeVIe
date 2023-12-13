@@ -5,7 +5,7 @@ import LoginPage from '../components/LoginPage.vue';
 import RegisterPage from '../components/RegisterPage.vue';
 import BookingForm from '@/components/BookingForm.vue';
 import DashBoard from '@/components/DashBoard.vue';
-import { auth } from '@/firebase'; 
+import store from '@/store'; // Import the Vuex store
 
 const routes = [
   { path: '/', name: 'Home', component: HomeView },
@@ -18,17 +18,14 @@ const routes = [
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
-  routes,
+  routes
 });
 
+// Use router.beforeEach to fetch user before each navigation
 router.beforeEach((to, from, next) => {
-  const isAuthenticated = auth.currentUser;
-
-  if (to.matched.some(record => record.meta.requiresAuth) && !isAuthenticated) {
-    next('/login');
-  } else {
+  store.dispatch('fetchUser', to).then(() => {
     next();
-  }
+  });
 });
 
 export default router;
