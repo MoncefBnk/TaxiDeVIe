@@ -25,9 +25,8 @@
 <script>
 import { ref } from 'vue';
 import { useStore } from 'vuex';
-import axios from 'axios';
-
-
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
+// Rajouter la confirmation de mail
 export default {
 	setup() {
 		const register_form = ref({
@@ -37,35 +36,30 @@ export default {
 			mail_address: '',
 			adress: '',
 			phone: '',
-
 		});
 		const store = useStore();
 		const passwordsDoNotMatch = ref(false);
-
 		const register = async () => {
 			if (register_form.value.password === register_form.value.confirmPassword) {
 				passwordsDoNotMatch.value = false;
-
 				try {
-
-					const userData = {
-						numberClient: '1007',
-						name: register_form.value.fullName,
-						lastname: register_form.value.lastName,
-						mail_address: register_form.value.email,
-						adress: register_form.value.address,
-						phone: register_form.value.phoneNumber,
-
-					};
-
-					// Make a POST request to your MongoDB REST API endpoint
-					await axios.post('https://localhost:7066/v1/api/Client', userData, {
-						headers: {
-							'Content-Type': 'application/json',
-						},
-					});
-
 					store.dispatch('register', register_form.value);
+					const auth = getAuth();
+					const unsubscribe = onAuthStateChanged(auth, async (user) => {
+						if (user) {
+							const userUid = user.uid;
+							const userData = {
+								numberClient: userUid,
+								name: register_form.value.fullName,
+								lastname: register_form.value.lastName,
+								mail_address: register_form.value.email,
+								adress: register_form.value.address,
+								phone: register_form.value.phoneNumber,
+							};
+							await store.dispatch('registerUserWithAPI', userData);
+							unsubscribe();
+						}
+					});
 				} catch (error) {
 					console.error('Error registering user:', error.message);
 				}

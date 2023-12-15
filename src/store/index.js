@@ -2,6 +2,7 @@ import { createStore } from 'vuex';
 import router from '@/router';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import { auth } from '@/firebase';
+import axios from 'axios';
 
 export default createStore({
   state: {
@@ -34,6 +35,25 @@ export default createStore({
         router.push('/dashboard');
       } catch (error) {
         handleAuthError(error);
+      }
+    },
+
+    async registerUserWithAPI({ commit }, userData) {
+      try {
+        
+        await axios.post('https://localhost:7066/v1/api/Client', userData, {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+  
+        
+        commit('SET_USER', auth.currentUser);
+        router.push('/dashboard');
+      } catch (error) {
+        console.error('Error registering user with API:', error.message);
+        
+        
       }
     },
 
