@@ -61,7 +61,7 @@ export default createStore({
     }
   }
 });
-
+   
 function handleAuthError(error) {
   switch (error.code) {
     case 'auth/user-not-found':

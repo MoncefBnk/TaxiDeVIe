@@ -1,16 +1,21 @@
+/* eslint-disable */
 <template>
 	<main class="login">
 		<section class="forms">
 			<form class="register" @submit.prevent="register">
 				<h2>Welcome to Taxi de vie</h2>
 				<h2>Register</h2>
+				<input type="text" placeholder="Full Name" v-model="register_form.fullName" />
+				<input type="text" placeholder="Last Name" v-model="register_form.lastName" />
 				<input type="email" placeholder="Email address" v-model="register_form.email" />
 				<input type="password" placeholder="Password" v-model="register_form.password" />
 				<input type="password" placeholder="Confirm Password" v-model="register_form.confirmPassword" />
-				<input type="phoneNumber" placeholder="Phone Number " v-model="register_form.phoneNumber" />
+				<input type="text" placeholder="Address" v-model="register_form.address" />
+				<input type="tel" placeholder="Phone Number" v-model="register_form.phoneNumber" />
+				<!-- Add any other required fields here -->
 				<input type="submit" value="Register" />
-        <p>Already have an account ?</p>
-        <router-link to="login" class="register-links">Login here !</router-link>
+				<p>Already have an account ?</p>
+				<router-link to="login" class="register-links">Login here !</router-link>
 				<p v-if="passwordsDoNotMatch">Passwords do not match!</p>
 			</form>
 		</section>
@@ -20,18 +25,50 @@
 <script>
 import { ref } from 'vue';
 import { useStore } from 'vuex';
+import axios from 'axios';
+
 
 export default {
 	setup() {
-	
-		const register_form = ref({});
+		const register_form = ref({
+			numberClient: '',
+			name: '',
+			lastName: '',
+			mail_address: '',
+			adress: '',
+			phone: '',
+
+		});
 		const store = useStore();
 		const passwordsDoNotMatch = ref(false);
 
-		const register = () => {
+		const register = async () => {
 			if (register_form.value.password === register_form.value.confirmPassword) {
 				passwordsDoNotMatch.value = false;
-				store.dispatch('register', register_form.value);
+
+				try {
+
+					const userData = {
+						numberClient: '1007',
+						name: register_form.value.fullName,
+						lastname: register_form.value.lastName,
+						mail_address: register_form.value.email,
+						adress: register_form.value.address,
+						phone: register_form.value.phoneNumber,
+
+					};
+
+					// Make a POST request to your MongoDB REST API endpoint
+					await axios.post('https://localhost:7066/v1/api/Client', userData, {
+						headers: {
+							'Content-Type': 'application/json',
+						},
+					});
+
+					store.dispatch('register', register_form.value);
+				} catch (error) {
+					console.error('Error registering user:', error.message);
+				}
 			} else {
 				passwordsDoNotMatch.value = true;
 			}
@@ -45,6 +82,7 @@ export default {
 	},
 };
 </script>
+  
   
 <style>
 .forms {
@@ -128,11 +166,12 @@ form.register input[type="submit"] {
 	cursor: pointer;
 	text-transform: uppercase;
 }
+
 .register-links {
-	color: #FFF; 
+	color: #FFF;
 	text-decoration: underline;
 	cursor: pointer;
 	margin-bottom: 2rem;
-	display: block; 
-  }
+	display: block;
+}
 </style>
