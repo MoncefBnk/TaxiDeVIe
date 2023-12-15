@@ -63,23 +63,16 @@ export default createStore({
 });
 
 function handleAuthError(error) {
-  switch (error.code) {
-    case 'auth/user-not-found':
-      alert('User not found');
-      break;
-    case 'auth/wrong-password':
-      alert('Wrong Password');
-      break;
-    case 'auth/email-already-in-use':
-      alert('Email already in use');
-      break;
-    case 'auth/invalid-email':
-      alert('Invalid email');
-      break;
-    case 'auth/weak-password':
-      alert('Weak Password');
-      break;
-    default:
-      alert('Something went wrong');
-  }
+  const errorMessages = {
+    'auth/user-not-found': 'User not found',
+    'auth/wrong-password': 'Wrong Password',
+    'auth/email-already-in-use': 'Email already in use',
+    'auth/invalid-email': 'Invalid email',
+    'auth/weak-password': 'Weak Password',
+  };
+
+  const defaultMessage = 'Something went wrong';
+  const errorMessage = errorMessages[error.code] || defaultMessage;
+
+  alert(errorMessage);
 }
