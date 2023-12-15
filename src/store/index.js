@@ -31,7 +31,7 @@ export default createStore({
       try {
         await createUserWithEmailAndPassword(auth, email, password);
         commit('SET_USER', auth.currentUser);
-        router.push('/');
+        router.push('/dashboard');
       } catch (error) {
         handleAuthError(error);
       }
