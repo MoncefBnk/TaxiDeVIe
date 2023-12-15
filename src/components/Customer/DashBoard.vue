@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import BookingForm from '@/components/BookingForm.vue';
+import BookingForm from '@/components/Customer/BookingForm.vue';
 
 export default {
   components: {
