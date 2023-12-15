@@ -73,7 +73,7 @@ export default createStore({
         } else {
           commit('SET_USER', user);
         
-          if (router.isReady() && to && to.name === 'Login') {
+          if (router.isReady() && to && (to.name === 'Login' || to.name === 'ForgotPassword'|| to.name === 'Home'||to.name ==='Register')) {
             router.push({ name: 'Dashboard' });
           }
         }

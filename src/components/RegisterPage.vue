@@ -32,6 +32,7 @@ export default {
 			numberClient: '',
 			name: '',
 			lastName: '',
+			userType: '',
 			mail_address: '',
 			adress: '',
 			phone: '',
@@ -56,6 +57,7 @@ export default {
 
 							const userData = {
 								numberClient: userUid,
+								userType: '1',
 								name: register_form.value.fullName,
 								lastname: register_form.value.lastName,
 								mail_address: register_form.value.email,

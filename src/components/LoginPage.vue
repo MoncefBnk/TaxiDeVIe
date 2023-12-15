@@ -1,17 +1,15 @@
 <template>
 	<main class="login">
 		<section class="forms">
-			
-
 			<form class="login" @submit.prevent="login">
-				<h2>Welcome to Taxi de vie</h2>
-				<h2>Login</h2>
-				<input type="email" placeholder="Email address" v-model="login_form.email" />
-				<input type="password" placeholder="Password" v-model="login_form.password" />
-				<router-link to="/forgot-password" class="links">Forgot Password?</router-link>
-				<input type="submit" value="Login" />
-				<p>Don't have an account yet ?</p>
-				<router-link to="/register" class="links">Create an account now !</router-link>
+				<h2>Bienvenue sur Taxi de vie</h2>
+				
+				<input type="email" placeholder="Adresse e-mail" v-model="login_form.email" />
+				<input type="password" placeholder="Mot de passe" v-model="login_form.password" />
+				<router-link to="/forgot-password" class="links">Mot de passe oublié ?</router-link>
+				<input type="submit" value="Se connecter" />
+				<p>Vous n'avez pas de compte encore ?</p>
+				<router-link to="/register" class="links">Crée un compte maintenant !</router-link>
 			</form>
 		</section>
 	</main>
@@ -24,29 +22,15 @@ import { useStore } from 'vuex';
 export default {
 	setup() {
 		const login_form = ref({});
-		const register_form = ref({});
 		const store = useStore();
-		const passwordsDoNotMatch = ref(false);
-
+	
 		const login = () => {
 			store.dispatch('login', login_form.value);
 		};
 
-		const register = () => {
-			if (register_form.value.password === register_form.value.confirmPassword) {
-				passwordsDoNotMatch.value = false;
-				store.dispatch('register', register_form.value);
-			} else {
-				passwordsDoNotMatch.value = true;
-			}
-		};
-
 		return {
 			login_form,
-			register_form,
 			login,
-			register,
-			passwordsDoNotMatch,
 		};
 	},
 };

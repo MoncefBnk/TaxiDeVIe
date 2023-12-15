@@ -25,7 +25,7 @@ const router = createRouter({
   routes
 });
 
-// Use router.beforeEach to fetch user before each navigation
+
 router.beforeEach((to, from, next) => {
   store.dispatch('fetchUser', to).then(() => {
     next();
