@@ -12,7 +12,6 @@
 				<input type="password" placeholder="Confirm Password" v-model="register_form.confirmPassword" />
 				<input type="text" placeholder="Address" v-model="register_form.address" />
 				<input type="tel" placeholder="Phone Number" v-model="register_form.phoneNumber" />
-				<!-- Add any other required fields here -->
 				<input type="submit" value="Register" />
 				<p>Already have an account ?</p>
 				<router-link to="login" class="register-links">Login here !</router-link>
@@ -37,17 +36,24 @@ export default {
 			adress: '',
 			phone: '',
 		});
+
 		const store = useStore();
+
 		const passwordsDoNotMatch = ref(false);
+
 		const register = async () => {
 			if (register_form.value.password === register_form.value.confirmPassword) {
 				passwordsDoNotMatch.value = false;
+
 				try {
 					store.dispatch('register', register_form.value);
+
 					const auth = getAuth();
+
 					const unsubscribe = onAuthStateChanged(auth, async (user) => {
 						if (user) {
 							const userUid = user.uid;
+
 							const userData = {
 								numberClient: userUid,
 								name: register_form.value.fullName,
@@ -56,6 +62,7 @@ export default {
 								adress: register_form.value.address,
 								phone: register_form.value.phoneNumber,
 							};
+
 							await store.dispatch('registerUserWithAPI', userData);
 							unsubscribe();
 						}
