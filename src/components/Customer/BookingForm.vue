@@ -1,38 +1,73 @@
 <template>
-  <div>
-    <h2 class="header">Réserver un trajet</h2>
-    <form @submit.prevent="submitBooking" class="booking-form">
-      <div class="form-group">
-        <label for="startingPoint">Lieu de prise en charge :</label>
-        <input type="text" id="startingPoint" v-model="bookingData.startingPoint" required placeholder="Entrez le lieu de prise en charge">
+  <div class="form-container">
+    <h1>Où allons-nous?</h1>
+
+    <div class="form-content">
+      <div v-if="currentPage === 0" class="step-content">
+        <h2>Étape 1: Informations sur le lieu</h2>
+        <div class="form-group">
+          <label>Point de départ</label>
+          <input type="text" v-model="lieuDePriseEnCharge" required>
+        </div>
+        <div class="form-group">
+          <label>Point de dépose</label>
+          <input type="text" v-model="lieuDeDepose" required>
+        </div>
       </div>
 
-      <div class="form-group arrow-container">
-        <span class="arrow" @click="swapLocations">&#8593;</span>
-        <span class="arrow" @click="swapLocations">&#8595;</span>
+      <div v-if="currentPage === 1" class="step-content">
+        <h2>Étape 2: Informations sur le temps</h2>
+        <div class="form-group">
+          <label>Date de départ</label>
+          <input type="date" v-model="departureDate" required>
+        </div>
+        <div class="form-group">
+          <label>Heure de départ</label>
+          <input type="time" v-model="departureTime" required>
+        </div>
       </div>
 
-      <div class="form-group">
-        <label for="destination">Lieu de dépose :</label>
-        <input type="text" id="destination" v-model="bookingData.destination" required placeholder="Entrez le lieu de dépose">
+      <div v-if="currentPage === 2" class="step-content">
+        <h2>Étape 3: Informations sur le compagnon</h2>
+        <div class="form-group">
+          <label>Nom du compagnon</label>
+          <input type="text" v-model="companionName" required>
+        </div>
+        <div class="form-group">
+          <label>Âge du compagnon</label>
+          <input type="number" v-model="companionAge" required>
+        </div>
       </div>
 
-      <button type="button" @click="searchSchedule" :disabled="!isSearchEnabled" class="search-button">Recherche</button>
-
-      <div v-if="showSchedule" class="schedule">
-        <h3>Sélectionnez un horaire :</h3>
-        <ul>
-          <li v-for="schedule in exampleSchedules" :key="schedule.id">
-            <label>
-              <input type="checkbox" v-model="selectedSchedule" :value="schedule.id">
-              {{ schedule.day }} : {{ schedule.startTime }} - {{ schedule.endTime }}
-            </label>
-          </li>
-        </ul>
+      <div v-if="currentPage === 3" class="step-content">
+        <h2>Étape 4: Informations sur la capacité</h2>
+        <div class="form-group">
+          <label>Nombre de personnes</label>
+          <div class="seat-buttons">
+            <div v-for="count in [1, 2, 3, 4]" :key="count" class="seat-button">
+              <button @click="selectNumberOfPersons(count)" :class="{ 'selected': numberOfPersons === count }">
+                {{ count }} Personne{{ count > 1 ? 's' : '' }}
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
 
-      <button v-if="selectedSchedule.length > 0" type="button" @click="confirmReservation" class="confirm-button">Confirmer la réservation</button>
-    </form>
+      <div v-if="currentPage === 4" class="step-content">
+        <h2>Étape 5: Carte et Réservation</h2>
+      
+      </div>
+
+      <div class="btn-group">
+        <button v-if="currentPage > 0" @click="goToPage(currentPage - 1)" class="btn">Précédent</button>
+        <button v-if="currentPage < steps.length - 1" @click="goToPage(currentPage + 1)" class="btn">Suivant</button>
+        <button v-if="currentPage === steps.length - 1" @click="reserver" class="btn">Réserver</button>
+      </div>
+    </div>
+
+    <div class="progress-dots">
+      <div v-for="(step, index) in steps" :key="index" class="dot" :class="{ 'active': index === currentPage }"></div>
+    </div>
   </div>
 </template>
 
@@ -40,111 +75,154 @@
 export default {
   data() {
     return {
-      bookingData: {
-        startingPoint: '',
-        destination: '',
-      },
-      showSchedule: false,
-      exampleSchedules: [
-        { id: 1, day: 'Lundi', startTime: '9:00', endTime: '17:00' },
-        { id: 2, day: 'Mardi', startTime: '9:00', endTime: '17:00' },
-      ],
-      selectedSchedule: [],
+      lieuDePriseEnCharge: '',
+      lieuDeDepose: '',
+      departureTime: '',
+      companionName: '',
+      companionAge: '',
+      numberOfPersons: 1,
+      departureDate: '',
+      currentPage: 0,
+      steps: ['Emplacement', 'Temps', 'Compagnon', 'Capacité', 'Carte & Réservation'],
     };
   },
-  computed: {
-    isSearchEnabled() {
-      return this.bookingData.startingPoint && this.bookingData.destination;
-    },
-  },
   methods: {
-    submitBooking() {
-      console.log('Réservation soumise :', this.bookingData, 'Horaires sélectionnés :', this.selectedSchedule);
-    },
-    swapLocations() {
-      const temp = this.bookingData.startingPoint;
-      this.bookingData.startingPoint = this.bookingData.destination;
-      this.bookingData.destination = temp;
-    },
-    searchSchedule() {
-      this.showSchedule = true; 
-    },
-    confirmReservation() {
-      if (this.selectedSchedule.length > 0) {
-        const selectedScheduleDetails = this.selectedSchedule.map(id => {
-          const schedule = this.exampleSchedules.find(s => s.id === id);
-          return `${schedule.day} : ${schedule.startTime} - ${schedule.endTime}`;
-        }).join('\n');
+    // Fonction pour récupérer les horaires depuis MongoDB
+    // async fetchScheduleFromMongo() {
+    //   try {
+    //     // Faire un appel asynchrone pour récupérer les horaires depuis MongoDB
+    //     const response = await yourApiCallToGetSchedule();  // remplacez par API de namory
 
-        const confirmationMessage = `Réservation confirmée !\n\nHoraires sélectionnés :\n${selectedScheduleDetails}\n\nLieu de prise en charge : ${this.bookingData.startingPoint}\nLieu de dépose : ${this.bookingData.destination}`;
+    //     // Mettre à jour l'état du composant en fonction de l'horaire récupéré
+    //     this.departureDate = response.departureDate;
+    //     this.departureTime = response.departureTime;
+    //   } catch (error) {
+    //     console.error('Erreur lors de la récupération de l\'horaire :', error);
+    //   }
+    // },
+    reserver() {
+      console.log('Réservation confirmée!');
+      // Liaison Mongo pour le formulaire 
+    },
+    goToPage(pageNumber) {
+      this.currentPage = pageNumber;
 
-        window.alert(confirmationMessage);
-      } else {
-        window.alert('Veuillez sélectionner au moins un horaire.');
-      }
+      //Récupérer l'horaire lors de la navigation vers la deuxième étape
+      // if (pageNumber === 1) {
+      //   this.fetchScheduleFromMongo();
+      // }
+    },
+    selectNumberOfPersons(number) {
+      this.numberOfPersons = number;
     },
   },
 };
 </script>
 
 <style scoped>
-.header {
-  font-size: 24px;
-  text-align: center;
-  margin-bottom: 20px;
+
+form {
+    display: block;
+}
+.form-container {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 20px;
+}
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 16px;
 }
 
-.booking-form {
-  max-width: 400px;
-  margin: auto;
-  background-color: #fff;
+.form-group input {
+  width: 100%;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-bottom: 16px;
+}
+.progress-dots {
+  display: flex;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  justify-content: center;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  background-color: rgb(245, 66, 101);
+  border-radius: 50%;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.dot.active {
+  background-color: rgb(143, 4, 32);
+}
+
+.form-content {
+  background: #FFF;
   padding: 20px;
   border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.form-group {
+.step-content {
   margin-bottom: 20px;
 }
 
-label {
-  font-weight: bold;
-  display: block;
-  margin-bottom: 5px;
+h1 {
+  font-size: 30px;
 }
 
-input {
-  width: 100%;
-  padding: 10px;
-  box-sizing: border-box;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+h2 {
+  font-size: 25px; 
 }
 
-.arrow-container {
-  text-align: center;
+.btn-group {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
 }
 
-.arrow {
-  font-size: 24px;
+.btn {
+  padding: 10px 20px;
+  font-size: 16px;
   cursor: pointer;
-}
-
-.search-button,
-.confirm-button {
-  background-color: #4CAF50;
-  color: #fff;
-  padding: 15px;
+  background: rgb(245, 66, 101);
+  color: #FFF;
   border: none;
   border-radius: 4px;
-  width: 100%;
-  cursor: pointer;
-  font-size: 16px;
-  margin-top: 10px;
 }
 
-.search-button:hover,
-.confirm-button:hover {
-  background-color: #45a049;
+.btn:hover {
+  background: rgb(245, 66, 101);
+}
+
+.seat-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.seat-button {
+  width: 48%;
+  margin-bottom: 10px;
+}
+
+.seat-buttons button {
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  cursor: pointer;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.seat-buttons button.selected {
+  background: rgb(245, 66, 101);
+  color: #FFF;
 }
 </style>

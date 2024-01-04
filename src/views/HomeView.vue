@@ -6,8 +6,8 @@
 </template>
 
 <script>
-import HomeCompo from '@/components/HomeCompo.vue';
-import FAQCompo from '@/components/FAQCompo.vue';
+import HomeCompo from '@/components/Home/HomeCompo.vue';
+import FAQCompo from '@/components/Home/FAQCompo.vue';
 
 export default {
   components: {
