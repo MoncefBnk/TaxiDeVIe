@@ -1,5 +1,6 @@
 <template>
   <main class="profile">
+	<NavbarCustomer />
     <section class="forms">
       <form class="profile">
         <h2>Profile</h2>
@@ -17,9 +18,15 @@
 <script>
 import { ref, onMounted } from 'vue';
 import { useStore } from 'vuex';
+import NavbarCustomer from '@/components/Customer/NavbarCustomer.vue';
 
 export default {
+	components: {
+      NavbarCustomer,
+     
+  },
   setup() {
+	
     const store = useStore();
     
     const clientInfo = ref(store.state.clientInfo);

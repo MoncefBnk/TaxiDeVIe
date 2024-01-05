@@ -33,7 +33,7 @@ export default createStore({
       try {
         await signInWithEmailAndPassword(auth, email, password);
         commit('SET_USER', auth.currentUser);
-        router.push('/dashboard');
+        router.push('/customer');
       } catch (error) {
         handleAuthError(error);
       }
@@ -43,7 +43,7 @@ export default createStore({
       try {
         await createUserWithEmailAndPassword(auth, email, password);
         commit('SET_USER', auth.currentUser);
-        router.push('/dashboard');
+        router.push('/customer');
       } catch (error) {
         handleAuthError(error);
       }
@@ -60,7 +60,7 @@ export default createStore({
 
 
         commit('SET_USER', auth.currentUser);
-        router.push('/dashboard');
+        router.push('/customer');
       } catch (error) {
         console.error('Error registering user with API:', error.message);
 
@@ -102,7 +102,7 @@ export default createStore({
           commit('SET_NUMBER_CLIENT', user.uid);
 
           if (router.isReady() && to && (to.name === 'Login' || to.name === 'ForgotPassword' || to.name === 'Home' || to.name === 'Register')) {
-            router.push({ name: 'Dashboard' });
+            router.push({ name: 'Customer' });
           }
         }
       });
