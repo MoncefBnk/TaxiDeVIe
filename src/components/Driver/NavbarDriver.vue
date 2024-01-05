@@ -9,9 +9,11 @@
           <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
         </div>
         <div class="nav-links" :class="{ 'show': isMenuOpen }">
-          <router-link to="/customer" @click="closeMenu">Tableau de bord</router-link>
-          <router-link to="/profile" @click="closeMenu">Profil</router-link>
-          <router-link to="/settings" @click="closeMenu">Paramètres</router-link>
+          <router-link to="/driver" @click="closeMenu">Tableau de bord</router-link>
+          <router-link to="/approval" @click="closeMenu">Validation</router-link>
+          <router-link to="/profileDriver" @click="closeMenu">Profil</router-link>
+          <router-link to="/history" @click="closeMenu">Historique</router-link>
+          <router-link to="/upcoming" @click="closeMenu">Prochaine réservation</router-link>
           <router-link to="#" @click="openLogoutConfirmation">Déconnexion</router-link>
         </div>
   
