@@ -1,18 +1,24 @@
 <template>
   <div class="home-container">
-    <HomeCompo />
+    <NavbarHome />
+    <MainHome />
     <FAQCompo />
+    <FooterHome />
   </div>
 </template>
 
 <script>
-import HomeCompo from '@/components/Home/HomeCompo.vue';
+import NavbarHome from '@/components/Home/NavbarHome.vue';
+import MainHome from '@/components/Home/MainHome.vue';
 import FAQCompo from '@/components/Home/FAQCompo.vue';
+import FooterHome from '@/components/Home/FooterHome.vue';
 
 export default {
   components: {
-    HomeCompo,
+    NavbarHome,
+    MainHome,
     FAQCompo,
+    FooterHome,
   },
 };
 </script>
