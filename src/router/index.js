@@ -7,6 +7,7 @@ import BookingForm from '@/components/Customer/BookingForm.vue';
 import ProfileCustomer from '@/components/Customer/ProfileCustomer.vue';
 import FAQCompo from '@/components/Home/FAQCompo.vue'; 
 import CustomerView from '../views/CustomerView.vue'; 
+import DriverView from '../views/DriverView.vue'; 
 import store from '@/store'; // Import the Vuex store
 
 const routes = [
@@ -17,7 +18,8 @@ const routes = [
   { path: '/customer', name: 'Customer', component: CustomerView, meta: { requiresAuth: true } },
   { path: '/booking', name: 'Booking', component: BookingForm, meta: { requiresAuth: true } },
   { path: '/faq', name: 'FAQ', component: FAQCompo }, 
-  { path: '/profile', name: 'Profile', component: ProfileCustomer, meta : {requiresAuth: true} }, 
+  { path: '/profile', name: 'Profile', component: ProfileCustomer, meta : {requiresAuth: true} },
+  { path: '/driver', name: 'Driver', component: DriverView, meta : {requiresAuth: true} },  
 ];
 
 const router = createRouter({

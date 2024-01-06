@@ -49,7 +49,7 @@ export default createStore({
   
         
         commit('SET_USER', auth.currentUser);
-        router.push('/cutomer');
+        router.push('/customer');
       } catch (error) {
         console.error('Error registering user with API:', error.message);
         

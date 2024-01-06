@@ -99,6 +99,7 @@ export default {
     text-decoration: none;
     margin: 0 20px;
     font-size: 1em;
+    padding: 5px;
   }
   
   @media screen and (max-width: 768px) {
@@ -119,6 +120,7 @@ export default {
       display: flex;
       align-items: flex-start;
       flex-direction: column;
+      padding: 14px;
     }
   }
   
