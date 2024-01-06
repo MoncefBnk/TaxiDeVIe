@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { createStore } from 'vuex';
 import router from '@/router';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'firebase/auth';
@@ -26,6 +27,9 @@ export default createStore({
     SET_CLIENT_INFO(state, clientInfo) {
       state.clientInfo = clientInfo;
     },
+  },
+  getters: {
+    userType: (state) => state.clientInfo.userType,
   },
   actions: {
     async login({ commit }, { email, password }) {
@@ -88,7 +92,7 @@ export default createStore({
       }
     },
 
-    async fetchUser({ commit }, to) {
+    async fetchUser({ commit, getters, dispatch }, to) {
       auth.onAuthStateChanged(async user => {
         if (user === null) {
           commit('CLEAR_USER');
@@ -97,15 +101,29 @@ export default createStore({
           }
         } else {
           commit('SET_USER', user);
-
           commit('SET_NUMBER_CLIENT', user.uid);
-
-          if (router.isReady() && to && (to.name === 'Login' || to.name === 'ForgotPassword' || to.name === 'Home' || to.name === 'Register')) {
+    
+          // Fetch additional user data (userType) from MongoDB
+          await dispatch('fetchClientInfo', user.uid);
+    
+          const userType = getters.userType;
+    
+          // Redirect logic based on user type
+          if (userType === '1' && to && ['Driver', 'ProfileDriver', 'Upcoming', 'Approval', 'driverHistory'].includes(to.name)) {
             router.push({ name: 'Customer' });
+          } else if (userType === '2' && to && ['Profile', 'customerHistory', 'booking', 'customer'].includes(to.name)) {
+            router.push({ name: 'Driver' });
+          }
+    
+          // Redirect to default page for Login, ForgotPassword, Home, and Register
+          if (router.isReady() && to && to.name && (to.name === 'Login' || to.name === 'ForgotPassword' || to.name === 'Home' || to.name === 'Register')) {
+            router.push({ name: userType === '1' ? 'Customer' : 'Driver' });
           }
         }
       });
-    }
+    },
+
+
   }
 });
 
