@@ -17,7 +17,6 @@ export default createStore({
       state.user = user;
       state.numberClient = user ? user.uid : null;
     },
-
     CLEAR_USER(state) {
       state.user = null;
     },
