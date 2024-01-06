@@ -145,15 +145,16 @@ export default {
 </script>
 
 <style scoped>
-/* Add styles if needed */
+
 ul ul {
   list-style-type: none;
   margin-left: 20px;
-  display: none; /* Hide initially */
+  display: none; 
 }
 
 .answer {
-  padding-left: 0; /* Removed dot before the answer */
+  padding-left: 0; 
+  overflow: hidden;
 }
 
 .faq {
@@ -167,13 +168,12 @@ ul ul {
 
 .faq-container {
   width: 100%;
-  height: 100%;
+  height: auto;
   margin-bottom: 15px;
 }
 
 .faq-label {
   cursor: pointer;
-  width: 100%;
   padding: 5px;
   display: flex;
   flex-wrap: wrap;
@@ -194,7 +194,7 @@ ul ul {
   display: flex;
   justify-content: center;
   align-items: center;
-  flex: 0 0 10%; /* Adjust the percentage as needed */
+  flex: 0 0 10%; 
 }
 
 .material-icons {
@@ -229,18 +229,24 @@ ul ul {
     width: 90%;
   }
 
+  .faq-container {
+    margin-bottom: 10px;
+  }
+
   .faq-label {
-    flex-wrap: nowrap;
-    justify-content: center; /* Center the dropdown */
+    flex-wrap: wrap;
+    justify-content: center; 
+    text-align: center;
   }
 
   .faq-label-text {
     flex: 0 0 100%;
+    font-size: 14px; 
   }
 
   .faq-label-icon {
     flex: 0 0 100%;
-    margin-top: 10px; /* Add margin to separate the question and dropdown on mobile */
+    margin-top: 10px; 
   }
 }
 </style>
