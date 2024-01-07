@@ -1,18 +1,14 @@
 <!-- ForgotPassword.vue -->
-<template>
-  
+<template> 
     <form class="login-form" @submit.prevent="resetPassword">
-      <h2>Forgot Password</h2>
+      <h3>Mot de passe oublié ?</h3>
       <div class="form-group">
-        <p class="help-text">Please enter your email adress that you have registered with, if it matches we will send you a recovery link</p>
-        <input type="email" placeholder="Email address" v-model="email" />
+        <p class="help-text">Veuillez saisir l'adresse e-mail avec laquelle vous vous êtes inscrit, si elle correspond, nous vous enverrons un lien de récupération</p>
+        <input type="email" placeholder="Adresse e-mail" v-model="email" />
       </div>
-      <button type="submit" class="reset-password-btn">Reset Password</button>
-      <router-link to="/login" class="go-back-link">Go Back to Login</router-link>
+      <button type="submit" class="reset-password-btn">Réinitialiser le mot de passe</button>
+      <router-link to="/login" class="go-back-link">Revenir à la connexion</router-link>
     </form>
-
-
-
 </template>
   
 <script>
@@ -30,12 +26,10 @@ export default {
       auth
         .sendPasswordResetEmail(this.email)
         .then(() => {
-          console.log('Password reset email sent successfully');
-          // You can add a success message or redirect the user to the login page
+          console.log('E-mail de réinitialisation du mot de passe envoyé avec succès');
         })
         .catch((error) => {
-          console.error('Error sending password reset email', error);
-          // Handle the error, display a message, etc.
+          console.error('Erreur lors de l envoi du e-mail de réinitialisation du mot de passe', error);
         });
     },
   },

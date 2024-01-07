@@ -3,19 +3,18 @@
 	<main class="login">
 		<section class="forms">
 			<form class="register" @submit.prevent="register">
-				<h2>Welcome to Taxi de vie</h2>
-				<h2>Register</h2>
-				<input type="text" placeholder="Full Name" v-model="register_form.fullName" />
-				<input type="text" placeholder="Last Name" v-model="register_form.lastName" />
-				<input type="email" placeholder="Email address" v-model="register_form.email" />
-				<input type="password" placeholder="Password" v-model="register_form.password" />
-				<input type="password" placeholder="Confirm Password" v-model="register_form.confirmPassword" />
-				<input type="text" placeholder="Address" v-model="register_form.address" />
-				<input type="tel" placeholder="Phone Number" v-model="register_form.phoneNumber" />
-				<input type="submit" value="Register" />
-				<p>Already have an account ?</p>
-				<router-link to="login" class="register-links">Login here !</router-link>
-				<p v-if="passwordsDoNotMatch">Passwords do not match!</p>
+				<h2>Bienvenue sur Taxi de vie</h2>
+				<input type="text" placeholder="Prénom" v-model="register_form.fullName" />
+				<input type="text" placeholder="Nom" v-model="register_form.lastName" />
+				<input type="email" placeholder="Adresse e-mail" v-model="register_form.email" />
+				<input type="password" placeholder="Mot de passe" v-model="register_form.password" />
+				<input type="password" placeholder="Confirmez le mot de passe" v-model="register_form.confirmPassword" />
+				<input type="text" placeholder="Adresse" v-model="register_form.address" />
+				<input type="tel" placeholder="Phone numéro de téléphone" v-model="register_form.phoneNumber" />
+				<p v-if="passwordsDoNotMatch">Les mots de passe ne correspondent pas!</p>
+				<input type="submit" value="Créer un compte" />
+				<p>Vous avez déjà un compte ?</p>
+				<router-link to="login" class="register-links">Connectez-vous ici !</router-link>
 			</form>
 		</section>
 	</main>
