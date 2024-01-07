@@ -185,7 +185,7 @@ ul ul {
 }
 
 .faq-label-text {
-  color: #365a5e;
+  color: #ffffff;
 }
 
 .faq-label-icon {
@@ -198,7 +198,7 @@ ul ul {
 }
 
 .material-icons {
-  color: #365a5e;
+  color: #ffffff;
   transition: 0.3s ease;
 }
 

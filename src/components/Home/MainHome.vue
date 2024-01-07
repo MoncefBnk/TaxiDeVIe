@@ -8,7 +8,7 @@
         <div class="slogan-container">
           <div class="slogan">
             <h1>TECHTRANSIT</h1>
-            <p>Votre Trajet Connecté, Prix Fixe, Service Imbattable </p>
+            <p>Votre Trajet Connecté, Prix Fixe, Service Imbattable. </p>
             <router-link to="/booking" class="book-ride">Commander une course</router-link>
           </div>
         </div>
