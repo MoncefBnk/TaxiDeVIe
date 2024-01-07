@@ -1,4 +1,5 @@
 <template>
+    <NavbarDriver />
     <div>
       <!-- Simuler une nouvelle demande de trajet -->
       <button @click="simulateNewRideRequest">Simuler une nouvelle demande de trajet</button>
@@ -16,7 +17,14 @@
   </template>
   
   <script>
+
+  import NavbarDriver from '@/components/Driver/NavbarDriver.vue';
+
   export default {
+    components: {
+    NavbarDriver,
+
+  },
     data() {
       return {
         showValidation: false,

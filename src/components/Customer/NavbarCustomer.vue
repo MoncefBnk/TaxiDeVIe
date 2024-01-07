@@ -11,7 +11,7 @@
         <div class="nav-links" :class="{ 'show': isMenuOpen }">
           <router-link to="/customer" @click="closeMenu">Tableau de bord</router-link>
           <router-link to="/profile" @click="closeMenu">Profil</router-link>
-          <router-link to="/settings" @click="closeMenu">Paramètres</router-link>
+          <router-link to="/customerHistory" @click="closeMenu">Historique</router-link>
           <router-link to="#" @click="openLogoutConfirmation">Déconnexion</router-link>
         </div>
   
