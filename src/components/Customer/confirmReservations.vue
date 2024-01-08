@@ -3,7 +3,7 @@ export default {
   methods: {
     retour() {
       // Use $router.push instead of $route.push
-      this.$router.push('');
+      this.$router.push('customer');
     }
   }
 };
