@@ -13,11 +13,13 @@ import HistoryDriver from '@/components/Driver/HistoryDriver.vue';
 import HistoryCustomer from '@/components/Customer/HistoryCustomer.vue';
 import ApprovalDriver from '@/components/Driver/ApprovalDriver.vue';
 import UpcomingDriver from '@/components/Driver/UpcomingDriver.vue';
-import store from '@/store'; 
+import confirmReservations from'../components/Customer/confirmReservations.vue';
+import store from '@/store'; // Import the Vuex store
 
 const routes = [
   { path: '/', name: 'Home', component: HomeView },
   { path: '/login', name: 'Login', component: LoginPage },
+  { path: '/Confirmation_Reservation', name: 'Reservations', component: confirmReservations },
   { path: '/register', name: 'Register', component: RegisterPage },
   { path: '/forgot-password', name: 'ForgotPassword', component: ForgotPasswordView },
   { path: '/customer', name: 'Customer', component: CustomerView, meta: { requiresAuth: true } },
