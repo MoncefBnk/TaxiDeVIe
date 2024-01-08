@@ -73,12 +73,11 @@ export default {
   }
   
   .logo {
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
   }
   
   .logo-image {
-    width: 100%;
     height: 100%;
     object-fit: cover;
   }
