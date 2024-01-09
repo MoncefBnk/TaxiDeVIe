@@ -129,7 +129,7 @@ export default {
     // },
     async getDisponibility(numberpeople, departureTime, departureDate) {
       try {
-        const apiDisponibility = await axios.get(`https://localhost:7066/v1/api/Reservations/${numberpeople}/${departureTime}/${departureDate}`);
+        const apiDisponibility = await axios.get(`https://localhost:7066/v1/api/Disponibility/${numberpeople}/${departureTime}/${departureDate}`);
         const Disponibility = apiDisponibility.data.map(x => ({
           "id": x.id,
           "id_disponibility": x.id_disponibility,
@@ -168,18 +168,18 @@ export default {
         const user = await auth.currentUser; // Use 'await' here
         if (user) {
           this.creneauxDispo = {
-        "Disponibility": {
-          "id": slot.id,
-          "id_disponibility": slot.id_disponibility,
-          "heure": slot.heure,
-          "date": slot.date,
-          "id_driver": slot.driver,
-        },
-        "email":user.email,
-        "adresse_start": this.lieuDePriseEnCharge,
-        "adresse_end": this.lieuDeDepose,
-        "number_people": this.numberOfPersons
-      };
+            "Disponibility": {
+              "id": slot.id,
+              "id_disponibility": slot.id_disponibility,
+              "heure": slot.heure,
+              "date": slot.date,
+              "id_driver": slot.driver,
+            },
+            "email": user.email,
+            "adresse_start": this.lieuDePriseEnCharge,
+            "adresse_end": this.lieuDeDepose,
+            "number_people": this.numberOfPersons
+          };
         }
       } catch (error) {
         console.error('Erreur lors de la récupération de l\'adresse de l\'utilisateur:', error);
@@ -207,23 +207,34 @@ export default {
 
     async reserver() {
       try {
-          await axios.post('https://localhost:7066/v1/api/Reservations', {
+        this.$router.push('/loading')
+        await axios.post('https://localhost:7066/v1/api/Reservations', {
           Disponibility: this.creneauxDispo.Disponibility,
           email: this.creneauxDispo.email,
           start_city_adress: this.creneauxDispo.adresse_start,
           arrival_address: this.creneauxDispo.adresse_end,
-          number_people : this.numberOfPersons
+          number_people: this.numberOfPersons
         }, {
           headers: {
             'Content-Type': 'application/json'
           }
         });
-        this.$router.push('/Confirmation_Reservation');
+        this.$router.push('/Confirmation-Reservation');
         console.log('Reservation successful!');
-        
+
       } catch (error) {
+        this.handleReservationError(error);
         console.error('Error during reservation:', error);
+        this.$router.push('/');
       }
+    },
+    handleReservationError(error) {
+      const errorMessages = {
+    'Error during reservation:': 'Reservation Failed, Try again',
+  };  
+      const defaultMessage = 'Reservation Failed, Try again';
+      const errorMessage = errorMessages[error.code] || defaultMessage;
+      alert(errorMessage);
     },
     goToPage(pageNumber) {
       this.currentPage = pageNumber;
@@ -237,6 +248,7 @@ export default {
     selectNumberOfPersons(number) {
       this.numberOfPersons = number;
     },
+
   },
 };
 </script>

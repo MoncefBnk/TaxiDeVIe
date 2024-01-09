@@ -14,12 +14,13 @@ import HistoryCustomer from '@/components/Customer/HistoryCustomer.vue';
 import ApprovalDriver from '@/components/Driver/ApprovalDriver.vue';
 import UpcomingDriver from '@/components/Driver/UpcomingDriver.vue';
 import confirmReservations from'../components/Customer/confirmReservations.vue';
+import LoadingPage from '@/components/Shared/LoadingPage.vue'
 import store from '@/store'; // Import the Vuex store
 
 const routes = [
   { path: '/', name: 'Home', component: HomeView },
   { path: '/login', name: 'Login', component: LoginPage },
-  { path: '/Confirmation_Reservation', name: 'Reservations', component: confirmReservations },
+  { path: '/Confirmation-Reservation', name: 'Reservations', component: confirmReservations },
   { path: '/register', name: 'Register', component: RegisterPage },
   { path: '/forgot-password', name: 'ForgotPassword', component: ForgotPasswordView },
   { path: '/customer', name: 'Customer', component: CustomerView, meta: { requiresAuth: true } },
@@ -30,6 +31,7 @@ const routes = [
   { path: '/upcoming', name: 'Upcoming', component: UpcomingDriver, meta: { requiresAuth: true } },
   { path: '/faq', name: 'FAQ', component: FAQCompo }, 
   { path: '/profile', name: 'Profile', component: ProfileCustomer, meta : {requiresAuth: true} },
+  { path: '/loading', name: 'Loading', component: LoadingPage, meta : {requiresAuth: true} },
   { path: '/profileDriver', name: 'ProfileDriver', component: ProfileDriver, meta : {requiresAuth: true} },
   { path: '/driver', name: 'Driver', component: DriverView, meta : {requiresAuth: true} },  
 ];
