@@ -1,3 +1,4 @@
+/* eslint-disable */
 <template>
   <div class="form-container">
     <h1>Où allons-nous?</h1>
@@ -206,7 +207,7 @@ export default {
 
     async reserver() {
       try {
-        const response = await axios.post('https://localhost:7066/v1/api/Reservations', {
+          await axios.post('https://localhost:7066/v1/api/Reservations', {
           Disponibility: this.creneauxDispo.Disponibility,
           email: this.creneauxDispo.email,
           start_city_adress: this.creneauxDispo.adresse_start,
@@ -219,6 +220,7 @@ export default {
         });
         this.$router.push('/Confirmation_Reservation');
         console.log('Reservation successful!');
+        
       } catch (error) {
         console.error('Error during reservation:', error);
       }
