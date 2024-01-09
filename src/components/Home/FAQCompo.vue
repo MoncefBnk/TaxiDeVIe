@@ -1,5 +1,5 @@
 <template>
-  <div class="faq">
+   <div id="faq" class="faq">
     <div class="global-label">
       <div class="global-label-text">Questions Fréquemment Posées</div>
     </div>

@@ -4,7 +4,7 @@
       <img :src="require('@/assets/logo.png')" alt="Logo" class="logo-image" />
     </div>
     <div class="nav-links">
-      <router-link to="/faq">FAQ</router-link>
+      <a href="#faq" @click.prevent="scrollToFAQ">FAQ</a>
       <router-link to="/login">Login</router-link>
       <router-link to="/register">Sign Up</router-link>
     </div>
@@ -13,6 +13,14 @@
 
 <script>
 export default {
+  methods: {
+    scrollToFAQ() {
+      const faqElement = document.getElementById('faq');
+      if (faqElement) {
+        faqElement.scrollIntoView({ behavior: 'smooth' });
+      }
+    },
+  },
 };
 </script>
 
