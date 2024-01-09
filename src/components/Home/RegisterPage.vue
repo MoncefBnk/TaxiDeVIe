@@ -10,7 +10,7 @@
 				<input type="password" placeholder="Mot de passe" v-model="register_form.password" />
 				<input type="password" placeholder="Confirmez le mot de passe" v-model="register_form.confirmPassword" />
 				<input type="text" placeholder="Adresse" v-model="register_form.address" />
-				<input type="tel" placeholder="Phone numéro de téléphone" v-model="register_form.phoneNumber" />
+				<input type="tel" placeholder="numéro de téléphone" v-model="register_form.phoneNumber" />
 				<p v-if="passwordsDoNotMatch">Les mots de passe ne correspondent pas!</p>
 				<input type="submit" value="Créer un compte" />
 				<p>Vous avez déjà un compte ?</p>

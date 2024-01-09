@@ -1,3 +1,4 @@
+/* eslint-disable */
 <template>
   <div class="form-container">
     <h1>Où allons-nous?</h1>
@@ -7,17 +8,17 @@
         <div class="form-group">
           <label>adresse de départ</label>
           <input type="text" required list="adresse" v-model="lieuDePriseEnCharge"
-            @input="onAddressInputChange(this.lieuDePriseEnCharge)">
+            @input="onAddressInputChange(lieuDePriseEnCharge)">
           <datalist id="adresse">
-            <option v-for="(city, index) in this.AllAdresse" :key="index">{{ city }}</option>
+            <option v-for="(city, index) in AllAdresse" :key="index">{{ city }}</option>
           </datalist>
         </div>
         <div class="form-group">
           <label>adresse d'arrivée</label>
           <input type="text" list="adresselist" v-model="lieuDeDepose" required
-            @input="onAddressInputChange(this.lieuDeDepose)">
+            @input="onAddressInputChange(lieuDeDepose)">
           <datalist id="adresselist">
-            <option v-for="(city, index) in this.AllAdresse" :key="index">{{ city }}</option>
+            <option v-for="(city, index) in AllAdresse" :key="index">{{ city }}</option>
           </datalist>
         </div>
       </div>
@@ -48,24 +49,31 @@
       </div>
       <div v-if="currentPage === 3" class="step-content">
         <h2>Étape 4: choix du créneau </h2>
-        <div v-for="(slots, dateUnique) in this.AllDisponibility" :key="dateUnique">
-          <p> {{ new Date(dateUnique).toLocaleDateString(
-            'fr-FR', {
-            weekday: 'long',
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric'
-        }
-        ) }}</p>
-          <ul>
-            <li v-for="slot in slots" :key="slot.id_disponibility">
-              {{ slot.heure }}
-            </li>
-          </ul>
-        </div>
+        <template v-if="validedForm">
+          <div v-for="(slots, dateUnique) in AllDisponibility" :key="dateUnique">
+            <p>
+              {{
+                new Date(dateUnique).toLocaleDateString('fr-FR', {
+                  weekday: 'long',
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric'
+                })
+              }}
+            </p>
+            <div class="seat-buttons">
+              <div v-for="slot in slots" :key="slot.id_disponibility" class="seat-button">
+                <button @click="handleButtonClick(slot)" :class="{ 'selected': heure === slot.heure }">
+                  {{ slot.heure }}
+                </button>
+              </div>
+            </div>
+          </div>
+        </template>
+        <p v-else>Aucune disponibilité</p>
       </div>
       <div v-if="currentPage === 4" class="step-content">
-        <h2>Étape 5: Carte et Réservation</h2>
+        <h2>Étape 5: Confirmer</h2>
       </div>
 
       <div class="btn-group">
@@ -80,13 +88,15 @@
     </div>
   </div>
 </template>
-
 <script>
 import axios from 'axios';
+import { auth } from "../../firebase/index"
 import { ref, onMounted, computed } from 'vue';
+
 export default {
   data() {
     return {
+
       lieuDePriseEnCharge: '',
       lieuDeDepose: '',
       departureTime: '',
@@ -94,9 +104,12 @@ export default {
       companionAge: '',
       numberOfPersons: 1,
       departureDate: '',
+      heure: '',
+      CreneauxSeled: ref([]),
       currentPage: 0,
       AllAdresse: ref([]),
       AllDisponibility: ref([]),
+      validedForm: ref(false),
       steps: ['Emplacement', 'Temps', 'Compagnon', 'Capacité', 'Carte & Réservation'],
     };
   },
@@ -118,20 +131,30 @@ export default {
       try {
         const apiDisponibility = await axios.get(`https://localhost:7066/v1/api/Reservations/${numberpeople}/${departureTime}/${departureDate}`);
         const Disponibility = apiDisponibility.data.map(x => ({
+          "id": x.id,
           "id_disponibility": x.id_disponibility,
           "date": x.date,
           "heure": x.heure,
+          "driver": x.id_driver
         }));
+        if (Disponibility.length > 0) {
+          this.validedForm = true;
+        } else {
+          this.validedForm = false;
+        }
         this.AllDisponibility = computed(() => {
           const creneauxDispo = {};
-          Disponibility.map(x => {
-            const date_unique = x.date;
+          Disponibility.map(e => {
+            const date_unique = e.date;
             if (!creneauxDispo[date_unique]) {
               creneauxDispo[date_unique] = [];
             }
             creneauxDispo[date_unique].push({
-              "id_disponibility": x.id_disponibility,
-              "heure": x.heure,
+              "id": e.id,
+              "id_disponibility": e.id_disponibility,
+              "heure": e.heure,
+              "date": e.date,
+              "driver": e.driver,
             });
           });
           return creneauxDispo;
@@ -139,6 +162,29 @@ export default {
       } catch (error) {
         console.error('Erreur lors de la requête à l\'API: disponibilité', error);
       }
+    },
+    async handleButtonClick(slot) {
+      try {
+        const user = await auth.currentUser; // Use 'await' here
+        if (user) {
+          this.creneauxDispo = {
+        "Disponibility": {
+          "id": slot.id,
+          "id_disponibility": slot.id_disponibility,
+          "heure": slot.heure,
+          "date": slot.date,
+          "id_driver": slot.driver,
+        },
+        "email":user.email,
+        "adresse_start": this.lieuDePriseEnCharge,
+        "adresse_end": this.lieuDeDepose,
+        "number_people": this.numberOfPersons
+      };
+        }
+      } catch (error) {
+        console.error('Erreur lors de la récupération de l\'adresse de l\'utilisateur:', error);
+      }
+      console.log(this.creneauxDispo);
     },
     async getAddressData(addressInput) {
       try {
@@ -156,16 +202,32 @@ export default {
       onMounted(() => {
         this.getAddressData(this.lieuDePriseEnCharge);
       });
+      this.getAddressForCurrentUser();
     },
 
-    reserver() {
-      console.log('Réservation confirmée!');
-      // Liaison Mongo pour le formulaire 
+    async reserver() {
+      try {
+          await axios.post('https://localhost:7066/v1/api/Reservations', {
+          Disponibility: this.creneauxDispo.Disponibility,
+          email: this.creneauxDispo.email,
+          start_city_adress: this.creneauxDispo.adresse_start,
+          arrival_address: this.creneauxDispo.adresse_end,
+          number_people : this.numberOfPersons
+        }, {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+        this.$router.push('/Confirmation_Reservation');
+        console.log('Reservation successful!');
+        
+      } catch (error) {
+        console.error('Error during reservation:', error);
+      }
     },
     goToPage(pageNumber) {
       this.currentPage = pageNumber;
       this.getDisponibility(this.numberOfPersons, this.departureTime.toString(), this.departureDate.toString());
-
       //console.log(this.AllDisponibility);
       //Récupérer l'horaire lors de la navigation vers la deuxième étape
       // if (pageNumber === 1) {
@@ -257,6 +319,11 @@ h2 {
   color: #FFF;
   border: none;
   border-radius: 4px;
+}
+
+.button-selected {
+  background-color: pink;
+  /* Ajoutez les styles pour la couleur rose */
 }
 
 .btn:hover {
