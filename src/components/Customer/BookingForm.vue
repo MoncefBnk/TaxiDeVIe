@@ -128,7 +128,7 @@ export default {
     // },
     async getDisponibility(numberpeople, departureTime, departureDate) {
       try {
-        const apiDisponibility = await axios.get(`https://localhost:7066/v1/api/Reservations/${numberpeople}/${departureTime}/${departureDate}`);
+        const apiDisponibility = await axios.get(`https://localhost:7066/v1/api/disponibility/${numberpeople}/${departureTime}/${departureDate}`);
         const Disponibility = apiDisponibility.data.map(x => ({
           "id": x.id,
           "id_disponibility": x.id_disponibility,
