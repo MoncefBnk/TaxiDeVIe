@@ -3,7 +3,6 @@
 		<section class="forms">
 			<form class="login" @submit.prevent="login">
 				<h2>Bienvenue sur Taxi de vie</h2>
-				
 				<input type="email" placeholder="Adresse e-mail" v-model="login_form.email" />
 				<input type="password" placeholder="Mot de passe" v-model="login_form.password" />
 				<router-link to="/forgot-password" class="links">Mot de passe oublié ?</router-link>
