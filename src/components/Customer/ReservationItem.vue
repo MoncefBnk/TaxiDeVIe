@@ -1,9 +1,11 @@
+<!-- ReservationItem.vue -->
 <template>
     <div class="reservation-item">
       <p class="info"><strong>Début:</strong> {{ reservation.start_city_adress }}</p>
       <p class="info"><strong>Destination:</strong> {{ reservation.arrival_address }}</p>
       <p class="info"><strong>Date:</strong> {{ reservation.disponibility.date }}</p>
       <p class="info"><strong>Heure:</strong> {{ reservation.disponibility.heure }}</p>
+      <p class="info"><strong>Status:</strong> {{ statusText }}</p>
     </div>
   </template>
   
@@ -11,6 +13,20 @@
   export default {
     props: {
       reservation: Object,
+    },
+    computed: {
+      statusText() {
+        switch (this.reservation.reservations_status) {
+          case 0:
+            return '⏳ En attente de validation';
+          case 1:
+            return '⏳ En cours';
+          case 2:
+            return '✅ Terminé';
+          default:
+            return '🔴 Inconnu';
+        }
+      },
     },
   };
   </script>
@@ -33,3 +49,4 @@
   
   /* You can add more styles as needed */
   </style>
+  

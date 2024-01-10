@@ -1,8 +1,7 @@
-<!-- ReservationHistory.vue -->
 <template>
     <div>
-      <h1>Historique</h1>
-      <div v-if="filteredReservations.length === 0" class="no-reservations">Aucune réservation trouvée.</div>
+      <h1>Réservation à venir</h1>
+      <div v-if="filteredReservations.length === 0" class="no-reservations">Aucune réservation à venir trouvée.</div>
       <div v-else>
         <ReservationItem v-for="reservation in filteredReservations" :key="reservation._id" :reservation="reservation" />
       </div>
@@ -39,7 +38,7 @@
           this.reservations = response.data;
 
           // Filter reservations based on reservations_status
-          this.filteredReservations = this.reservations.filter(reservation => reservation.reservations_status === 2);
+          this.filteredReservations = this.reservations.filter(reservation => reservation.reservations_status === 0 || 1);
         } else {
           console.warn('No user is currently signed in.');
         }
