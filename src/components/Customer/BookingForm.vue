@@ -175,7 +175,7 @@ export default {
               "date": slot.date,
               "id_driver": slot.driver,
             },
-            "email": user.email,
+            "numberClient": user.reloadUserInfo.localId,
             "adresse_start": this.lieuDePriseEnCharge,
             "adresse_end": this.lieuDeDepose,
             "number_people": this.numberOfPersons
@@ -210,7 +210,7 @@ export default {
         this.$router.push('/loading')
         await axios.post('https://localhost:7066/v1/api/Reservations', {
           Disponibility: this.creneauxDispo.Disponibility,
-          email: this.creneauxDispo.email,
+          numberClient: this.creneauxDispo.numberClient,
           start_city_adress: this.creneauxDispo.adresse_start,
           arrival_address: this.creneauxDispo.adresse_end,
           number_people: this.numberOfPersons
