@@ -1,8 +1,8 @@
 <!-- ReservationHistory.vue -->
 <template>
     <div>
-      <h1>Reservation History</h1>
-      <div v-if="filteredReservations.length === 0" class="no-reservations">No reservations found.</div>
+      <h1>Historique</h1>
+      <div v-if="filteredReservations.length === 0" class="no-reservations">Aucune réservation trouvée.</div>
       <div v-else>
         <ReservationItem v-for="reservation in filteredReservations" :key="reservation._id" :reservation="reservation" />
       </div>
@@ -12,6 +12,7 @@
   <script>
   import axios from 'axios';
   import ReservationItem from '@/components/Customer/ReservationItem.vue';
+  import { auth } from '@/firebase';
   
   export default {
     data() {
@@ -25,18 +26,28 @@
       this.fetchReservations();
     },
     methods: {
-      async fetchReservations() {
-        try {
-          const response = await axios.get('https://localhost:7066/v1/api/Reservations');
+    async fetchReservations() {
+      try {
+        // Use Firebase authentication to get the current user
+        const user = auth.currentUser;
+
+        if (user) {
+          const userId = user.uid;
+
+          // Use the user ID in the API request
+          const response = await axios.get(`https://localhost:7066/v1/api/Client/display/reservations/${userId}`);
           this.reservations = response.data;
-  
+
           // Filter reservations based on reservations_status
-          this.filteredReservations = this.reservations.filter(reservation => reservation.reservations_status === 1);
-        } catch (error) {
-          console.error('Error fetching reservations:', error);
+          this.filteredReservations = this.reservations.filter(reservation => reservation.reservations_status === 0);
+        } else {
+          console.warn('No user is currently signed in.');
         }
-      },
+      } catch (error) {
+        console.error('Error fetching reservations:', error);
+      }
     },
+  },
     components: {
       ReservationItem,
     },
