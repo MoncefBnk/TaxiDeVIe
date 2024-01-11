@@ -87,7 +87,7 @@ export default createStore({
         if (error.response && error.response.status === 404) {
           // Handle 404 error for the first API
           console.warn('Client not found, trying to login as a Driver...');
-          
+
           try {
             const secondResponse = await axios.get(`https://localhost:7066/v1/api/Drivers/${numberClient}`);
             const clientInfoFromSecondAPI = secondResponse.data;
@@ -112,19 +112,19 @@ export default createStore({
         } else {
           commit('SET_USER', user);
           commit('SET_NUMBER_CLIENT', user.uid);
-    
+
           // Fetch additional user data (userType) from MongoDB
           await dispatch('fetchClientInfo', user.uid);
-    
+
           const userType = getters.userType;
-    
+
           // Redirect logic based on user type
           if (userType === '1' && to && ['Driver', 'ProfileDriver', 'Upcoming', 'Approval', 'driverHistory'].includes(to.name)) {
             router.push({ name: 'Customer' });
           } else if (userType === '2' && to && ['Profile', 'customerHistory', 'booking', 'customer'].includes(to.name)) {
             router.push({ name: 'Driver' });
           }
-    
+
           // Redirect to default page for Login, ForgotPassword, Home, and Register
           if (router.isReady() && to && to.name && (to.name === 'Login' || to.name === 'ForgotPassword' || to.name === 'Home' || to.name === 'Register')) {
             router.push({ name: userType === '1' ? 'Customer' : 'Driver' });

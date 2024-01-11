@@ -6,15 +6,15 @@ import RegisterPage from '../components/Home/RegisterPage.vue';
 import BookingForm from '@/components/Customer/BookingForm.vue';
 import ProfileCustomer from '@/components/Customer/ProfileCustomer.vue';
 import ProfileDriver from '@/components/Driver/ProfileDriver.vue';
-import FAQCompo from '@/components/Home/FAQCompo.vue'; 
-import CustomerView from '../views/CustomerView.vue'; 
-import DriverView from '../views/DriverView.vue'; 
+import FAQCompo from '@/components/Home/FAQCompo.vue';
+import CustomerView from '../views/CustomerView.vue';
+import DriverView from '../views/DriverView.vue';
 import HistoryDriver from '@/components/Driver/HistoryDriver.vue';
 import HistoryCustomer from '@/components/Customer/HistoryCustomer.vue';
 import ApprovalDriver from '@/components/Driver/ApprovalDriver.vue';
 import UpcomingDriver from '@/components/Driver/UpcomingDriver.vue';
 import UpcomingCustomer from '@/components/Customer/UpcomingCustomer.vue';
-import confirmReservations from'../components/Customer/confirmReservations.vue';
+import confirmReservations from '../components/Customer/confirmReservations.vue';
 import LoadingPage from '@/components/Shared/LoadingPage.vue'
 import store from '@/store'; // Import the Vuex store
 
@@ -31,11 +31,11 @@ const routes = [
   { path: '/approval', name: 'Approval', component: ApprovalDriver, meta: { requiresAuth: true } },
   { path: '/upcomingDriver', name: 'UpcomingDriver', component: UpcomingDriver, meta: { requiresAuth: true } },
   { path: '/upcomingCustomer', name: 'UpcomingCustomer', component: UpcomingCustomer, meta: { requiresAuth: true } },
-  { path: '/faq', name: 'FAQ', component: FAQCompo }, 
-  { path: '/profile', name: 'Profile', component: ProfileCustomer, meta : {requiresAuth: true} },
-  { path: '/loading', name: 'Loading', component: LoadingPage, meta : {requiresAuth: true} },
-  { path: '/profileDriver', name: 'ProfileDriver', component: ProfileDriver, meta : {requiresAuth: true} },
-  { path: '/driver', name: 'Driver', component: DriverView, meta : {requiresAuth: true} },  
+  { path: '/faq', name: 'FAQ', component: FAQCompo },
+  { path: '/profile', name: 'Profile', component: ProfileCustomer, meta: { requiresAuth: true } },
+  { path: '/loading', name: 'Loading', component: LoadingPage, meta: { requiresAuth: true } },
+  { path: '/profileDriver', name: 'ProfileDriver', component: ProfileDriver, meta: { requiresAuth: true } },
+  { path: '/driver', name: 'Driver', component: DriverView, meta: { requiresAuth: true } },
 ];
 
 const router = createRouter({

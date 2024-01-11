@@ -1,14 +1,15 @@
 <!-- ForgotPassword.vue -->
-<template> 
-    <form class="login-form" @submit.prevent="resetPassword">
-      <h3>Mot de passe oublié ?</h3>
-      <div class="form-group">
-        <p class="help-text">Veuillez saisir l'adresse e-mail avec laquelle vous vous êtes inscrit, si elle correspond, nous vous enverrons un lien de récupération</p>
-        <input type="email" placeholder="Adresse e-mail" v-model="email" />
-      </div>
-      <button type="submit" class="reset-password-btn">Réinitialiser le mot de passe</button>
-      <router-link to="/login" class="go-back-link">Revenir à la connexion</router-link>
-    </form>
+<template>
+  <form class="login-form" @submit.prevent="resetPassword">
+    <h3>Mot de passe oublié ?</h3>
+    <div class="form-group">
+      <p class="help-text">Veuillez saisir l'adresse e-mail avec laquelle vous vous êtes inscrit, si elle correspond, nous
+        vous enverrons un lien de récupération</p>
+      <input type="email" placeholder="Adresse e-mail" v-model="email" />
+    </div>
+    <button type="submit" class="reset-password-btn">Réinitialiser le mot de passe</button>
+    <router-link to="/login" class="go-back-link">Revenir à la connexion</router-link>
+  </form>
 </template>
   
 <script>
@@ -45,13 +46,13 @@ export default {
 }
 
 .passowrd-recovery {
-	display: flex;
-	min-height: 100vh;
+  display: flex;
+  min-height: 100vh;
 }
 
 passowrd-recovery {
-	flex: 1 1 0%;
-	padding: 8rem 1rem 1rem;
+  flex: 1 1 0%;
+  padding: 8rem 1rem 1rem;
 }
 
 
@@ -59,8 +60,9 @@ passowrd-recovery {
 .form-group {
   margin-bottom: 20px;
 }
-.help-text{
- padding: 1vh;
+
+.help-text {
+  padding: 1vh;
 }
 
 label {
