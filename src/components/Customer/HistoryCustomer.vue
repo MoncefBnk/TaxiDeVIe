@@ -1,6 +1,7 @@
 <template>
     <div>
       <NavbarCustomer />
+      <ReservationHistory />
   
   
     </div>
@@ -9,12 +10,15 @@
   
   <script>
 import NavbarCustomer from '@/components/Customer/NavbarCustomer.vue';
+import ReservationHistory from '../Customer/ReservationHistory.vue'
   
   
   
   export default {
+    
     components: {
         NavbarCustomer,
+        ReservationHistory,
   
   },
   };
