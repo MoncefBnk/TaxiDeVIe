@@ -2,14 +2,13 @@
   <main class="profile">
 	<NavbarCustomer />
     <section class="forms">
-      <form class="profile">
+      <form @submit.prevent="ModifyMyAcount" class="profile">
         <h2>Profile</h2>
-
         <input type="text" placeholder="Prénom" v-model="clientInfo.name" />
         <input type="text" placeholder="Nom" v-model="clientInfo.lastname" />
         <input type="email" placeholder="Adresse e-mail" v-model="clientInfo.mail_address" />
         <input type="tel" placeholder="Numéro de téléphone" v-model="clientInfo.phone" />
-        <input type="submit" value="Engregistrer" />
+        <input type="submit" value="modifier" />
       </form>
     </section>
   </main>
@@ -24,6 +23,9 @@ export default {
 	components: {
       NavbarCustomer,
      
+  },
+  async ModifyMyAcount(){
+	console.log("Merci");
   },
   setup() {
 	
