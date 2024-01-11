@@ -8,7 +8,8 @@
                 reservation.disponibility.heure }}</p>
             <p class="info"><strong>Status:</strong> {{ statusText }}</p>
         </div>
-        <button @click="cancelReservation" class="cancel-button">Annuler</button>
+        <button v-if="this.$store.getters.userType === '1'" @click="cancelReservation" class="cancel-button">Annuler</button>
+        <button v-if="this.$store.getters.userType === '2'" @click="confirmReservation" class="confirm-button">Valider</button>
     </div>
 </template>
 <script>
@@ -30,6 +31,24 @@ export default {
         },
     },
     methods: {
+        async confirmReservation() {
+            if (this.reservation && this.reservation.disponibility) {
+                const idDisponibility = this.reservation.disponibility.id;
+
+                try {
+                    await axios.put(`https://localhost:7066/v1/api/Reservations/annuler/${idDisponibility}`);
+                    console.log('Reservation successfully Confirmed!');
+                    location.reload();
+
+                } catch (error) {
+                    console.error('Error confirming reservation:', error);
+                }
+            } else {
+                console.error('Reservation or Disponibility not properly defined.');
+            }
+        },
+
+
         async cancelReservation() {
             if (this.reservation && this.reservation.disponibility) {
                 const idDisponibility = this.reservation.disponibility.id;
@@ -74,7 +93,21 @@ export default {
 .cancel-button {
     margin-left: auto;
     padding: 10px;
-    background-color: #ff6666;
+    width: 80px;
+    background-color: rgb(245, 66, 101);
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    line-height: 1;
+}
+
+.confirm-button {
+    margin-left: auto;
+    padding: 10px;
+    width: 80px;
+    background-color: rgb(245, 66, 101);
     color: #fff;
     border: none;
     border-radius: 4px;

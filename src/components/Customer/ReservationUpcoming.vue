@@ -18,7 +18,6 @@ export default {
     data() {
         return {
             reservations: [],
-            // Add a data property to store filtered reservations
             filteredReservations: [],
         };
     },
@@ -27,26 +26,34 @@ export default {
     },
     methods: {
         async fetchReservations() {
-            try {
-                // Use Firebase authentication to get the current user
-                const user = auth.currentUser;
+        try {
+            const user = auth.currentUser;
 
-                if (user) {
-                    const userId = user.uid;
+            if (user) {
+                const userId = user.uid;
+                let apiEndpoint;
 
-                    // Use the user ID in the API request
-                    const response = await axios.get(`https://localhost:7066/v1/api/Client/display/reservations/${userId}`);
-                    this.reservations = response.data;
-
-                    // Filter reservations based on reservations_status
-                    this.filteredReservations = this.reservations.filter(reservation => reservation.reservations_status === 0);
-                } else {
-                    console.warn('No user is currently signed in.');
+                // Check user type
+                if (this.$store.getters.userType === '1') {
+                    // Customer
+                    apiEndpoint = `https://localhost:7066/v1/api/Client/display/reservations/${userId}`;
+                } else if (this.$store.getters.userType === '2') {
+                    // Driver
+                    apiEndpoint = `https://localhost:7066/v1/api/Drivers/AllReservationsDriver/${userId}`;
                 }
-            } catch (error) {
-                console.error('Error fetching reservations:', error);
+
+                const response = await axios.get(apiEndpoint);
+                this.reservations = response.data;
+
+                // Filter reservations based on reservations_status
+                this.filteredReservations = this.reservations.filter(reservation => reservation.reservations_status === 0);
+            } else {
+                console.warn('No user is currently signed in.');
             }
-        },
+        } catch (error) {
+            console.error('Error fetching reservations:', error);
+        }
+    }
     },
     components: {
         ReservationItem,
@@ -68,4 +75,3 @@ h1 {
 
 /* Add more styles as needed */
 </style>
-  
