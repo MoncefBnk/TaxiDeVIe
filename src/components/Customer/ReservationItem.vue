@@ -20,7 +20,7 @@
       statusText() {
         switch (this.reservation.reservations_status) {
           case 0:
-            return '⏳ En cours';
+            return '⏳ En attente de validation';
           case 2:
             return '✅ Terminé';
           default:
@@ -34,13 +34,10 @@
     const idDisponibility = this.reservation.disponibility.id;
 
     try {
-      // Make the DELETE request to your API endpoint
       await axios.put(`https://localhost:7066/v1/api/Reservations/annuler/${idDisponibility}`);
-      
-      // Optionally, you can update your component state or perform any other actions after successful deletion
       console.log('Reservation successfully canceled!');
       location.reload();
-      
+
     } catch (error) {
       console.error('Error canceling reservation:', error);
     }

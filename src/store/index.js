@@ -36,7 +36,7 @@ export default createStore({
       try {
         await signInWithEmailAndPassword(auth, email, password);
         commit('SET_USER', auth.currentUser);
-        router.push('/customer');
+        router.push('/');
       } catch (error) {
         handleAuthError(error);
       }
@@ -80,15 +80,25 @@ export default createStore({
 
     async fetchClientInfo({ commit }, numberClient) {
       try {
-        if (numberClient !== null && numberClient !== undefined) {
-          const response = await axios.get(`https://localhost:7066/v1/api/Client/byNumberClient?numberClient=${numberClient}`);
-          const clientInfo = response.data;
-          commit('SET_CLIENT_INFO', clientInfo);
-        } else {
-          console.error('Invalid numberClient:', numberClient);
-        }
+        const response = await axios.get(`https://localhost:7066/v1/api/Client/${numberClient}`);
+        const clientInfo = response.data;
+        commit('SET_CLIENT_INFO', clientInfo);
       } catch (error) {
-        console.error('Error fetching client info:', error.message);
+        if (error.response && error.response.status === 404) {
+          // Handle 404 error for the first API
+          console.warn('Client not found, trying to login as a Driver...');
+          
+          try {
+            const secondResponse = await axios.get(`https://localhost:7066/v1/api/Drivers/${numberClient}`);
+            const clientInfoFromSecondAPI = secondResponse.data;
+            commit('SET_CLIENT_INFO', clientInfoFromSecondAPI);
+          } catch (secondError) {
+            console.error('Error fetching client info from the second API:', secondError.message);
+          }
+        } else {
+          // Handle other errors
+          console.error('Error fetching client info:', error.message);
+        }
       }
     },
 
