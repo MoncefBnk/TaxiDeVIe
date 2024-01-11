@@ -80,7 +80,7 @@ export default createStore({
 
     async fetchClientInfo({ commit }, numberClient) {
       try {
-        const response = await axios.get(`https://localhost:7066/v1/api/Client/byNumberClient?numberClient=${numberClient}`);
+        const response = await axios.get(`https://localhost:7066/v1/api/Client/${numberClient}`);
         const clientInfo = response.data;
         commit('SET_CLIENT_INFO', clientInfo);
       } catch (error) {
