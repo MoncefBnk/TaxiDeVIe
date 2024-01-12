@@ -1,36 +1,35 @@
 <!-- ReservationHistory.vue -->
 <template>
-    <div>
-        <h1>Historique</h1>
-        <div v-if="filteredReservations.length === 0" class="no-reservations">Aucune réservation trouvée.</div>
-        <div v-else>
-            <ReservationItem v-for="reservation in filteredReservations" :key="reservation._id"
-                :reservation="reservation" />
-        </div>
+  <div>
+    <h1>Historique</h1>
+    <div v-if="filteredReservations.length === 0" class="no-reservations">Aucune réservation trouvée.</div>
+    <div v-else>
+      <ReservationItem v-for="reservation in filteredReservations" :key="reservation._id" :reservation="reservation" />
     </div>
+  </div>
 </template>
-  
+
 <script>
 import axios from 'axios';
 import ReservationItem from '@/components/Shared/ReservationItem.vue';
 import { auth } from '@/firebase';
 
 export default {
-    data() {
-        return {
-            reservations: [],
-            // Add a data property to store filtered reservations
-            filteredReservations: [],
-        };
-    },
-    mounted() {
-        this.fetchReservations();
-    },
-    methods: {
-        async fetchReservations() {
-            try {
-                // Use Firebase authentication to get the current user
-                const user = auth.currentUser;
+  data() {
+    return {
+      reservations: [],
+      // Add a data property to store filtered reservations
+      filteredReservations: [],
+    };
+  },
+  mounted() {
+    this.fetchReservations();
+  },
+  methods: {
+    async fetchReservations() {
+      try {
+        // Use Firebase authentication to get the current user
+        const user = auth.currentUser;
 
                 if (user) {
                     const userId = user.uid;
@@ -54,19 +53,18 @@ export default {
     },
 };
 </script>
-  
+
 <style scoped>
 h1 {
-    color: #333;
-    text-align: center;
+  color: #333;
+  text-align: center;
 }
 
 .no-reservations {
-    margin: 20px 0;
-    color: #888;
-    text-align: center;
+  margin: 20px 0;
+  color: #888;
+  text-align: center;
 }
 
 /* Add more styles as needed */
 </style>
-  

@@ -2,19 +2,18 @@
 	<main class="profile">
 		<NavbarCustomer />
 		<section class="forms">
-			<form class="profile">
+			<form @submit.prevent="modifyMyAccount" class="profile">
 				<h2>Profile</h2>
-
 				<input type="text" placeholder="Prénom" v-model="clientInfo.name" />
 				<input type="text" placeholder="Nom" v-model="clientInfo.lastname" />
 				<input type="email" placeholder="Adresse e-mail" v-model="clientInfo.mail_address" />
 				<input type="tel" placeholder="Numéro de téléphone" v-model="clientInfo.phone" />
-				<input type="submit" value="Engregistrer" />
+				<input type="submit" value="modifier" />
 			</form>
 		</section>
 	</main>
 </template>
-
+  
 <script>
 import { ref, onMounted } from 'vue';
 import { useStore } from 'vuex';
@@ -23,16 +22,17 @@ import NavbarCustomer from '@/components/Customer/NavbarCustomer.vue';
 export default {
 	components: {
 		NavbarCustomer,
-
+	},
+	methods: {
+		async modifyMyAccount() {
+			console.log('Merci');
+		},
 	},
 	setup() {
-
 		const store = useStore();
-
 		const clientInfo = ref(store.state.clientInfo);
 
 		onMounted(() => {
-
 			const numberClient = store.state.numberClient;
 
 			store.dispatch('fetchClientInfo', numberClient);
