@@ -1,19 +1,19 @@
 <template>
     <div>
-      <NavbarCustomer />
-      <BookingForm />
+
+      <AddDriver/>
     </div>
   </template>
   
   
   <script>
-  import NavbarCustomer from '@/components/Customer/NavbarCustomer.vue';
-  import BookingForm from '@/components/Customer/BookingForm.vue';
+
+  import AddDriver from '@/components/Admin/AddDriver.vue';
   
   export default {
     components: {
-      NavbarCustomer,
-      BookingForm,
+
+      AddDriver,
   },
   };
   </script>

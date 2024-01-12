@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="home-container">
     <main class="grid-container">
       <div class="content-container">
         <div class="image-container">
@@ -8,8 +8,8 @@
         <div class="slogan-container">
           <div class="slogan">
             <h1>TECHTRANSIT</h1>
-            <p>Votre Trajet Connecté, Prix Fixe, Service Imbattable.</p>
-            <router-link to="/booking" class="book-ride">Book a ride</router-link>
+            <p>Votre Trajet Connecté, Prix Fixe, Service Imbattable. </p>
+            <router-link to="/booking" class="book-ride">Commander une course</router-link>
           </div>
         </div>
       </div>
@@ -18,11 +18,18 @@
 </template>
 
 <style scoped>
-.grid-container {
-  padding: 25px;
+.home-container {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  min-height: 100vh; 
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .grid-container {
+  padding: 25px;
   display: flex;
   flex-direction: column;
   align-items: center;

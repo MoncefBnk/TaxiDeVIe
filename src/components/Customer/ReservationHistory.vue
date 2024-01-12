@@ -45,7 +45,7 @@ export default {
             } catch (error) {
               console.error('Error fetching reservations:', error);
             }
-          }, 1000);
+          }, 10000);
 
         } else {
           console.warn('No user is currently signed in.');

@@ -9,10 +9,10 @@
                 reservation.disponibility.heure }}</p>
             <p class="info"><strong>Status:</strong> {{ statusText }}</p>
         </div>
-        <button v-if="this.$store.getters.userType === '1'" @click="cancelReservation" class="cancel-button">Annuler</button>
-        <button v-if="this.$store.getters.userType === '2'" @click="confirmReservation" class="confirm-button">Valider</button>
-        <button v-if="this.$store.getters.userType === '2'" @click="startReservation" class="lancer-button" >Lancer</button>
-        <button v-if="this.$store.getters.userType === '2'" @click="finishReservation" class="terminer-button" >Terminer</button>
+        <button v-if="this.$store.getters.userType === '1' && this.reservation.reservations_status === 0" @click="cancelReservation" class="cancel-button">Annuler</button>
+        <button v-if="this.$store.getters.userType === '2' && this.reservation.reservations_status === 0" @click="confirmReservation" class="confirm-button">Valider</button>
+        <button v-if="this.$store.getters.userType === '2' && this.reservation.reservations_status === 1" @click="startReservation" class="lancer-button" >Lancer</button>
+        <button v-if="this.$store.getters.userType === '2' && this.reservation.reservations_status === 2" @click="finishReservation" class="terminer-button" >Terminer</button>
     </div>
 </template>
 <script>
@@ -60,7 +60,7 @@ export default {
                 const id_reservation = this.reservation.id;
 
                 try {
-                    await axios.put(`https://localhost:7066/v1/api/Drivers/ValiderReservationsClient/${id_reservation}`);
+                    await axios.put(`https://localhost:7066/v1/api/Drivers/TerminerReservations/${id_reservation}`);
                     console.log('Reservation Finished!');
                     location.reload();
 
@@ -78,7 +78,7 @@ export default {
                 const id_reservation = this.reservation.id;
 
                 try {
-                    await axios.put(`https://localhost:7066/v1/api/Drivers/ValiderReservationsClient/${id_reservation}`);
+                    await axios.put(`https://localhost:7066/v1/api/Drivers/LanceReservations/${id_reservation}`);
                     console.log('Reservation Started!');
                     location.reload();
 
@@ -92,11 +92,11 @@ export default {
 
 
         async cancelReservation() {
-            if (this.reservation && this.reservation.disponibility) {
-                const id_disponibility = this.reservation.disponibility.id;
+            if (this.reservation) {
+                const id_reservation = this.reservation.id;
 
                 try {
-                    await axios.put(`https://localhost:7066/v1/api/Reservations/annuler/${id_disponibility}`);
+                    await axios.put(`https://localhost:7066/v1/api/Reservations/annuler/${id_reservation}`);
                     console.log('Reservation successfully canceled!');
                     location.reload();
 
@@ -157,6 +157,33 @@ export default {
     font-size: 12px;
     line-height: 1;
 }
+
+.lancer-button{
+    margin-left: auto;
+    padding: 10px;
+    width: 80px;
+    background-color: rgb(245, 66, 101);
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    line-height: 1;
+}
+
+.terminer-button{
+    margin-left: auto;
+    padding: 10px;
+    width: 80px;
+    background-color: rgb(245, 66, 101);
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    line-height: 1;
+}
+
 
 /* You can add more styles as needed */
 </style>
