@@ -1,6 +1,6 @@
 <template>
     <div>
-      <NavbarCustomer />
+      <NavbarAdmin />
       <ReservationUpcoming />
   
   
@@ -9,7 +9,7 @@
   
   
   <script>
-import NavbarCustomer from '@/components/Customer/NavbarCustomer.vue';
+import NavbarAdmin from '@/components/Admin/NavbarAdmin.vue';
 import ReservationUpcoming from '../Shared/ReservationUpcoming.vue'
   
   
@@ -17,7 +17,7 @@ import ReservationUpcoming from '../Shared/ReservationUpcoming.vue'
   export default {
     
     components: {
-        NavbarCustomer,
+        NavbarAdmin,
         ReservationUpcoming,
   
   },

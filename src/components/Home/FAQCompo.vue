@@ -45,7 +45,8 @@
         </div>
       </div>
       <ul class="answer" v-show="showAnswer[3]">
-        <li>Vous bénéficierez d'une réduction par rapport au tarif normal pendant les heures de service "Taxis de Vie".</li>
+        <li>Vous bénéficierez d'une réduction par rapport au tarif normal pendant les heures de service "Taxis de Vie".
+        </li>
       </ul>
     </div>
 
@@ -58,7 +59,8 @@
         </div>
       </div>
       <ul class="answer" v-show="showAnswer[4]">
-        <li>Chaque véhicule Taxis de Vie peut accueillir six passagers. Le principe est que tous les sièges doivent être occupés.</li>
+        <li>Chaque véhicule Taxis de Vie peut accueillir six passagers. Le principe est que tous les sièges doivent être
+          occupés.</li>
       </ul>
     </div>
 
@@ -84,7 +86,8 @@
         </div>
       </div>
       <ul class="answer" v-show="showAnswer[6]">
-        <li>Vous pouvez réserver par téléphone à partir de 18h00 le Vendredi, également par SMS ou utilisez le formulaire en ligne.</li>
+        <li>Vous pouvez réserver par téléphone à partir de 18h00 le Vendredi, également par SMS ou utilisez le formulaire
+          en ligne.</li>
       </ul>
     </div>
 
@@ -149,11 +152,13 @@ export default {
 ul ul {
   list-style-type: none;
   margin-left: 20px;
-  display: none; /* Hide initially */
+  display: none;
+  /* Hide initially */
 }
 
 .answer {
-  padding-left: 0; /* Removed dot before the answer */
+  padding-left: 0;
+  /* Removed dot before the answer */
 }
 
 .faq {
@@ -194,7 +199,8 @@ ul ul {
   display: flex;
   justify-content: center;
   align-items: center;
-  flex: 0 0 10%; /* Adjust the percentage as needed */
+  flex: 0 0 10%;
+  /* Adjust the percentage as needed */
 }
 
 .material-icons {
@@ -231,7 +237,8 @@ ul ul {
 
   .faq-label {
     flex-wrap: nowrap;
-    justify-content: center; /* Center the dropdown */
+    justify-content: center;
+    /* Center the dropdown */
   }
 
   .faq-label-text {
@@ -240,7 +247,7 @@ ul ul {
 
   .faq-label-icon {
     flex: 0 0 100%;
-    margin-top: 10px; /* Add margin to separate the question and dropdown on mobile */
+    margin-top: 10px;
+    /* Add margin to separate the question and dropdown on mobile */
   }
-}
-</style>
+}</style>

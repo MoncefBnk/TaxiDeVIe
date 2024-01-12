@@ -22,7 +22,7 @@ export default {
 	setup() {
 		const login_form = ref({});
 		const store = useStore();
-	
+
 		const login = () => {
 			store.dispatch('login', login_form.value);
 		};
@@ -117,11 +117,12 @@ form.register input[type="submit"] {
 	cursor: pointer;
 	text-transform: uppercase;
 }
+
 .links {
-	color: #3498db; 
+	color: #3498db;
 	text-decoration: underline;
 	cursor: pointer;
 	margin-bottom: 2rem;
-	display: block; 
-  }
+	display: block;
+}
 </style>
