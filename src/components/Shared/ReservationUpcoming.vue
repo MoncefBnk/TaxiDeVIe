@@ -32,46 +32,41 @@ export default {
                 if (user) {
                     const userId = user.uid;
                     let apiEndpoint;
-                    setInterval(async () => {
+                  
                         try {
                             if (this.$store.getters.userType === '1') {
                                 // Customer
                                 apiEndpoint = `https://localhost:7066/v1/api/Client/display/reservations/${userId}`;
+                                const response = await axios.get(apiEndpoint);
+                                this.reservations = response.data;
+
+                                // Filter reservations based on reservations_status
+                                this.filteredReservations = this.reservations.filter(reservation => reservation.reservations_status === 0 || reservation.reservations_status === 1||reservation.reservations_status === 2 );
                             } else if (this.$store.getters.userType === '2') {
                                 // Driver
                                 apiEndpoint = `https://localhost:7066/v1/api/Drivers/AllReservationsDriver/${userId}`;
+                                const response = await axios.get(apiEndpoint);
+                                this.reservations = response.data;
+
+                                // Filter reservations based on reservations_status
+                                this.filteredReservations = this.reservations.filter(reservation => reservation.reservations_status === 1||reservation.reservations_status === 2 );
                             } else if (this.$store.getters.userType === '3') {
                                 // Admin
                                 apiEndpoint = `https://localhost:7066/v1/api/Reservations`
+                                const response = await axios.get(apiEndpoint);
+                                this.reservations = response.data;
+
+                                // Filter reservations based on reservations_status
+                                this.filteredReservations = this.reservations.filter(reservation => reservation.reservations_status === 0 || reservation.reservations_status === 1||reservation.reservations_status === 2 );
                             }
 
-                            const response = await axios.get(apiEndpoint);
-                            this.reservations = response.data;
 
-                            // Filter reservations based on reservations_status
-                            this.filteredReservations = this.reservations.filter(reservation => reservation.reservations_status ===  1 || 2 );
                         } catch (error) {
                             console.error('Error fetching reservations:', error);
                         }
-                    }, 10000);
+                    
 
-                    // Check user type
-                    if (this.$store.getters.userType === '1') {
-                        // Customer
-                        apiEndpoint = `https://localhost:7066/v1/api/Client/display/reservations/${userId}`;
-                    } else if (this.$store.getters.userType === '2') {
-                        // Driver
-                        apiEndpoint = `https://localhost:7066/v1/api/Drivers/AllReservationsDriver/${userId}`;
-                    } else if (this.$store.getters.userType === '3') {
-                        // Admin
-                        apiEndpoint = `https://localhost:7066/v1/api/Reservations`
-                    }
-
-                    const response = await axios.get(apiEndpoint);
-                    this.reservations = response.data;
-
-                    // Filter reservations based on reservations_status
-                    this.filteredReservations = this.reservations.filter(reservation => reservation.reservations_status ===  1 || 2 );
+                   
                 } else {
                     console.warn('No user is currently signed in.');
                 }
