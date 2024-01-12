@@ -13,6 +13,7 @@ import HistoryDriver from '@/components/Driver/HistoryDriver.vue';
 import HistoryCustomer from '@/components/Customer/HistoryCustomer.vue';
 import ApprovalDriver from '@/components/Driver/ApprovalDriver.vue';
 import UpcomingDriver from '@/components/Driver/UpcomingDriver.vue';
+import PlanningDriver from '@/components/Driver/PlanningDriver.vue';
 import confirmReservations from'../components/Customer/confirmReservations.vue';
 import LoadingPage from '@/components/Shared/LoadingPage.vue'
 import store from '@/store'; // Import the Vuex store
@@ -34,6 +35,7 @@ const routes = [
   { path: '/loading', name: 'Loading', component: LoadingPage, meta : {requiresAuth: true} },
   { path: '/profileDriver', name: 'ProfileDriver', component: ProfileDriver, meta : {requiresAuth: true} },
   { path: '/driver', name: 'Driver', component: DriverView, meta : {requiresAuth: true} },  
+  { path: '/planning', name: 'Planning', component: PlanningDriver, meta : {requiresAuth: true} },  
 ];
 
 const router = createRouter({

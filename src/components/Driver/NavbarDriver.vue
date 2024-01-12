@@ -10,6 +10,7 @@
         </div>
         <div class="nav-links" :class="{ 'show': isMenuOpen }">
           <router-link to="/driver" @click="closeMenu">Tableau de bord</router-link>
+          <router-link to="/planning" @click="closeMenu">Planning</router-link>
           <router-link to="/approval" @click="closeMenu">Validation</router-link>
           <router-link to="/profileDriver" @click="closeMenu">Profil</router-link>
           <router-link to="/driverHistory" @click="closeMenu">Historique</router-link>
