@@ -92,11 +92,11 @@ export default {
 
 
         async cancelReservation() {
-            if (this.reservation && this.reservation.disponibility) {
-                const id_disponibility = this.reservation.disponibility.id;
+            if (this.reservation) {
+                const id_reservation = this.reservation.id;
 
                 try {
-                    await axios.put(`https://localhost:7066/v1/api/Reservations/annuler/${id_disponibility}`);
+                    await axios.put(`https://localhost:7066/v1/api/Reservations/annuler/${id_reservation}`);
                     console.log('Reservation successfully canceled!');
                     location.reload();
 

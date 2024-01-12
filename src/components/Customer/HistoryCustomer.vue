@@ -1,7 +1,7 @@
 <template>
   <div>
     <NavbarCustomer />
-    <ReservationHistory />
+    <HistoryDisplay/>
 
 
   </div>
@@ -10,7 +10,7 @@
   
 <script>
 import NavbarCustomer from '@/components/Customer/NavbarCustomer.vue';
-import ReservationHistory from '../Customer/ReservationHistory.vue'
+import HistoryDisplay from '@/components/Shared/HistoryDisplay.vue'
 
 
 
@@ -18,7 +18,7 @@ export default {
 
   components: {
     NavbarCustomer,
-    ReservationHistory,
+    HistoryDisplay,
 
   },
 };

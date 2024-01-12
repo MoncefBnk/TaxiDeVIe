@@ -12,7 +12,7 @@
         <router-link to="/driver" @click="closeMenu">Tableau de bord</router-link>
         <router-link to="/profileDriver" @click="closeMenu">Profil</router-link>
         <router-link to="/approval" @click="closeMenu">Validation</router-link>
-        <router-link to="/upcomingDriver" @click="closeMenu">Réservations à venir</router-link>
+        <router-link to="/upcomingDriver" @click="closeMenu">Réservations</router-link>
         <router-link to="/driverHistory" @click="closeMenu">Historique</router-link>
         <router-link to="#" @click="openLogoutConfirmation">Déconnexion</router-link>
       </div>
