@@ -26,37 +26,59 @@ export default {
     },
     methods: {
         async fetchReservations() {
-        try {
-            const user = auth.currentUser;
+            try {
+                const user = auth.currentUser;
 
-            if (user) {
-                const userId = user.uid;
-                let apiEndpoint;
+                if (user) {
+                    const userId = user.uid;
+                    let apiEndpoint;
+                    setInterval(async () => {
+                        try {
+                            if (this.$store.getters.userType === '1') {
+                                // Customer
+                                apiEndpoint = `https://localhost:7066/v1/api/Client/display/reservations/${userId}`;
+                            } else if (this.$store.getters.userType === '2') {
+                                // Driver
+                                apiEndpoint = `https://localhost:7066/v1/api/Drivers/AllReservationsDriver/${userId}`;
+                            } else if (this.$store.getters.userType === '3') {
+                                // Admin
+                                apiEndpoint = `https://localhost:7066/v1/api/Reservations`
+                            }
 
-                // Check user type
-                if (this.$store.getters.userType === '1') {
-                    // Customer
-                    apiEndpoint = `https://localhost:7066/v1/api/Client/display/reservations/${userId}`;
-                } else if (this.$store.getters.userType === '2') {
-                    // Driver
-                    apiEndpoint = `https://localhost:7066/v1/api/Drivers/AllReservationsDriver/${userId}`;
-                }else if (this.$store.getters.userType === '3'){
-                    // Admin
-                    apiEndpoint = `https://localhost:7066/v1/api/Reservations`
+                            const response = await axios.get(apiEndpoint);
+                            this.reservations = response.data;
+
+                            // Filter reservations based on reservations_status
+                            this.filteredReservations = this.reservations.filter(reservation => reservation.reservations_status === 0 || 1 || 2);
+                        } catch (error) {
+                            console.error('Error fetching reservations:', error);
+                        }
+                    }, 1000);
+
+                    // Check user type
+                    if (this.$store.getters.userType === '1') {
+                        // Customer
+                        apiEndpoint = `https://localhost:7066/v1/api/Client/display/reservations/${userId}`;
+                    } else if (this.$store.getters.userType === '2') {
+                        // Driver
+                        apiEndpoint = `https://localhost:7066/v1/api/Drivers/AllReservationsDriver/${userId}`;
+                    } else if (this.$store.getters.userType === '3') {
+                        // Admin
+                        apiEndpoint = `https://localhost:7066/v1/api/Reservations`
+                    }
+
+                    const response = await axios.get(apiEndpoint);
+                    this.reservations = response.data;
+
+                    // Filter reservations based on reservations_status
+                    this.filteredReservations = this.reservations.filter(reservation => reservation.reservations_status === 0 || 1 || 2);
+                } else {
+                    console.warn('No user is currently signed in.');
                 }
-
-                const response = await axios.get(apiEndpoint);
-                this.reservations = response.data;
-
-                // Filter reservations based on reservations_status
-                this.filteredReservations = this.reservations.filter(reservation => reservation.reservations_status === 0 || 1 || 2);
-            } else {
-                console.warn('No user is currently signed in.');
+            } catch (error) {
+                console.error('Error fetching reservations:', error);
             }
-        } catch (error) {
-            console.error('Error fetching reservations:', error);
         }
-    }
     },
     components: {
         ReservationItem,
