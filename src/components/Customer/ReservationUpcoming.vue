@@ -11,7 +11,7 @@
   
 <script>
 import axios from 'axios';
-import ReservationItem from '@/components/Customer/ReservationItem.vue';
+import ReservationItem from '@/components/Shared/ReservationItem.vue';
 import { auth } from '@/firebase';
 
 export default {
@@ -46,7 +46,7 @@ export default {
                 this.reservations = response.data;
 
                 // Filter reservations based on reservations_status
-                this.filteredReservations = this.reservations.filter(reservation => reservation.reservations_status === 0);
+                this.filteredReservations = this.reservations.filter(reservation => reservation.reservations_status === 0 || 1 || 2);
             } else {
                 console.warn('No user is currently signed in.');
             }

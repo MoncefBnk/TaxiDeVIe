@@ -10,6 +10,8 @@
         </div>
         <button v-if="this.$store.getters.userType === '1'" @click="cancelReservation" class="cancel-button">Annuler</button>
         <button v-if="this.$store.getters.userType === '2'" @click="confirmReservation" class="confirm-button">Valider</button>
+        <button v-if="this.$store.getters.userType === '2'" @click="lancerReservation" class="lancer-button" >Lancer</button>
+        <button v-if="this.$store.getters.userType === '2'" @click="terminerReservation" class="terminer-button" >Terminer</button>
     </div>
 </template>
 <script>
@@ -23,7 +25,11 @@ export default {
             switch (this.reservation.reservations_status) {
                 case 0:
                     return '⏳ En attente de validation';
+                case 1: 
+                    return '🟢 Validée';
                 case 2:
+                    return '🟠 Lancer';
+                case 3:
                     return '✅ Terminé';
                 default:
                     return '🔴 Inconnu';
@@ -32,11 +38,11 @@ export default {
     },
     methods: {
         async confirmReservation() {
-            if (this.reservation && this.reservation.disponibility) {
-                const idDisponibility = this.reservation.disponibility.id;
+            if (this.reservation) {
+                const idReservation = this.reservation.id;
 
                 try {
-                    await axios.put(`https://localhost:7066/v1/api/Reservations/annuler/${idDisponibility}`);
+                    await axios.put(`https://localhost:7066/v1/api/Drivers/ValiderReservationsClient/${idReservation}`);
                     console.log('Reservation successfully Confirmed!');
                     location.reload();
 
