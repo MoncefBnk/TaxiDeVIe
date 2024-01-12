@@ -37,18 +37,18 @@ header {
   width: 40px;
   height: 40px;
 }
-  
+
 .logo-image {
   height: 100%;
   object-fit: cover;
 }
 
 .nav-links {
-  margin-left: auto; 
+  margin-left: auto;
 }
 
 nav a {
-  color: white; 
+  color: white;
   margin: 0 10px;
   text-decoration: none;
 }

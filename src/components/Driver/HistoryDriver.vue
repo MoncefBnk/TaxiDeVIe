@@ -16,10 +16,8 @@ export default {
   components: {
     NavbarDriver,
 
-},
+  },
 };
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

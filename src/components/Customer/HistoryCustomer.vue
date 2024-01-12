@@ -1,30 +1,28 @@
 <template>
-    <div>
-      <NavbarCustomer />
-      <ReservationHistory />
+  <div>
+    <NavbarCustomer />
+    <ReservationHistory />
+
+
+  </div>
+</template>
   
   
-    </div>
-  </template>
-  
-  
-  <script>
+<script>
 import NavbarCustomer from '@/components/Customer/NavbarCustomer.vue';
 import ReservationHistory from '../Customer/ReservationHistory.vue'
-  
-  
-  
-  export default {
-    
-    components: {
-        NavbarCustomer,
-        ReservationHistory,
-  
+
+
+
+export default {
+
+  components: {
+    NavbarCustomer,
+    ReservationHistory,
+
   },
-  };
-  </script>
+};
+</script>
   
-  <style scoped>
-  
-  </style>
+<style scoped></style>
   

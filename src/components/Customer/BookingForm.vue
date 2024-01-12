@@ -230,8 +230,8 @@ export default {
     },
     handleReservationError(error) {
       const errorMessages = {
-    'Error during reservation:': 'Reservation Failed, Try again',
-  };  
+        'Error during reservation:': 'Reservation Failed, Try again',
+      };
       const defaultMessage = 'Reservation Failed, Try again';
       const errorMessage = errorMessages[error.code] || defaultMessage;
       alert(errorMessage);
