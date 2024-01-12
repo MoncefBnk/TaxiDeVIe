@@ -49,7 +49,7 @@ export default {
                             this.reservations = response.data;
 
                             // Filter reservations based on reservations_status
-                            this.filteredReservations = this.reservations.filter(reservation => reservation.reservations_status === 0 || 1 || 2);
+                            this.filteredReservations = this.reservations.filter(reservation => reservation.reservations_status === 0 || 1 || 2 || 3 );
                         } catch (error) {
                             console.error('Error fetching reservations:', error);
                         }
@@ -71,7 +71,7 @@ export default {
                     this.reservations = response.data;
 
                     // Filter reservations based on reservations_status
-                    this.filteredReservations = this.reservations.filter(reservation => reservation.reservations_status === 0 || 1 || 2);
+                    this.filteredReservations = this.reservations.filter(reservation => reservation.reservations_status === 0 || 1 || 2 ||3);
                 } else {
                     console.warn('No user is currently signed in.');
                 }
