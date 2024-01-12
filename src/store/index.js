@@ -87,13 +87,24 @@ export default createStore({
         if (error.response && error.response.status === 404) {
           // Handle 404 error for the first API
           console.warn('Client not found, trying to login as a Driver...');
-
+    
           try {
             const secondResponse = await axios.get(`https://localhost:7066/v1/api/Drivers/${numberClient}`);
             const clientInfoFromSecondAPI = secondResponse.data;
             commit('SET_CLIENT_INFO', clientInfoFromSecondAPI);
           } catch (secondError) {
-            console.error('Error fetching client info from the second API:', secondError.message);
+            console.warn('Error fetching Driver info :', secondError.message);
+    
+            // If the second API fails, try fetching from the third API
+            console.warn('Trying to fetch from the third API...');
+    
+            try {
+              const thirdResponse = await axios.get(`https://localhost:7066/v1/api/Admin/${numberClient}`);
+              const clientInfoFromThirdAPI = thirdResponse.data;
+              commit('SET_CLIENT_INFO', clientInfoFromThirdAPI);
+            } catch (thirdError) {
+              console.warn('Error fetching Admin info :', thirdError.message);
+            }
           }
         } else {
           // Handle other errors
@@ -119,15 +130,17 @@ export default createStore({
           const userType = getters.userType;
 
           // Redirect logic based on user type
-          if (userType === '1' && to && ['Driver', 'ProfileDriver', 'Upcoming', 'Approval', 'driverHistory'].includes(to.name)) {
+          if (userType === '1' && to && ['Driver', 'ProfileDriver', 'Upcoming', 'Approval', 'DriverHistory', 'Admin', 'AddDriver', 'UpcomingAll'].includes(to.name)) {
             router.push({ name: 'Customer' });
-          } else if (userType === '2' && to && ['Profile', 'customerHistory', 'booking', 'customer'].includes(to.name)) {
+          } else if (userType === '2' && to && ['Profile', 'CustomerHistory', 'Booking', 'Customer', 'Admin', 'AddDriver', 'UpcomingAll'].includes(to.name)) {
             router.push({ name: 'Driver' });
+          }else if(userType === '3' && to && ['Profile', 'CustomerHistory', 'Booking', 'Customer','Driver', 'ProfileDriver', 'Upcoming', 'Approval', 'DriverHistory'].includes(to.name)){
+            router.push({name:'Admin'})
           }
 
           // Redirect to default page for Login, ForgotPassword, Home, and Register
-          if (router.isReady() && to && to.name && (to.name === 'Login' || to.name === 'ForgotPassword' || to.name === 'Home' || to.name === 'Register')) {
-            router.push({ name: userType === '1' ? 'Customer' : 'Driver' });
+          if (router.isReady() && to && to.name && (to.name === 'Login' || to.name === 'ForgotPassword' || to.name === 'Home' || to.name === 'Register' )) {
+            router.push({ name: userType === '3' ? 'Admin' : (userType === '1' ? 'Customer' : 'Driver') });
           }
         }
       });

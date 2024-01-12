@@ -19,7 +19,6 @@ import ReservationUpcoming from '../Shared/ReservationUpcoming.vue'
     components: {
         NavbarAdmin,
         ReservationUpcoming,
-  
   },
   };
   </script>
