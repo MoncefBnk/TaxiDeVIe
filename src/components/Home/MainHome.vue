@@ -23,7 +23,6 @@
   padding: 0;
   box-sizing: border-box;
   min-height: 100vh; 
-  background-image: url('~@/assets/BG.jpg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;

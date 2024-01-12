@@ -1,6 +1,7 @@
 <template>
   <div>
     <NavbarDriver />
+    <HistoryDisplay/>
 
 
   </div>
@@ -9,12 +10,14 @@
 
 <script>
 import NavbarDriver from '@/components/Driver/NavbarDriver.vue';
+import HistoryDisplay from '@/components/Shared/HistoryDisplay.vue'
 
 
 
 export default {
   components: {
     NavbarDriver,
+    HistoryDisplay,
 
   },
 };
