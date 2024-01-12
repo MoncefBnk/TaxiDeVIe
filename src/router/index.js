@@ -1,20 +1,23 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import HomeView from '../views/HomeView.vue';
-import ForgotPasswordView from '@/components/Home/ForgotPasswordView.vue';
 import LoginPage from '../components/Home/LoginPage.vue';
 import RegisterPage from '../components/Home/RegisterPage.vue';
-import BookingForm from '@/components/Customer/BookingForm.vue';
+import ForgotPasswordView from '@/components/Home/ForgotPasswordView.vue';
 import ProfileCustomer from '@/components/Customer/ProfileCustomer.vue';
 import ProfileDriver from '@/components/Driver/ProfileDriver.vue';
 import FAQCompo from '@/components/Home/FAQCompo.vue';
 import CustomerView from '../views/CustomerView.vue';
 import DriverView from '../views/DriverView.vue';
+// import AdminView from '../views/AdminView.vue';
+// import AddDriver from '@/components/Admin/AddDriver.vue'
+import BookingForm from '@/components/Customer/BookingForm.vue';
+import ApprovalDriver from '@/components/Driver/ApprovalDriver.vue';
 import HistoryDriver from '@/components/Driver/HistoryDriver.vue';
 import HistoryCustomer from '@/components/Customer/HistoryCustomer.vue';
-import ApprovalDriver from '@/components/Driver/ApprovalDriver.vue';
+import confirmReservations from '@/components/Customer/ConfirmReservations.vue';
 import UpcomingDriver from '@/components/Driver/UpcomingDriver.vue';
 import UpcomingCustomer from '@/components/Customer/UpcomingCustomer.vue';
-import confirmReservations from '../components/Customer/confirmReservations.vue';
+// import UpcomingAdmin from '@/components/Admin/UpcomingAdmin.vue';
 import LoadingPage from '@/components/Shared/LoadingPage.vue'
 import store from '@/store'; // Import the Vuex store
 

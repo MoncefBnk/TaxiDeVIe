@@ -40,6 +40,9 @@ export default {
                 } else if (this.$store.getters.userType === '2') {
                     // Driver
                     apiEndpoint = `https://localhost:7066/v1/api/Drivers/AllReservationsDriver/${userId}`;
+                }else if (this.$store.getters.userType === '3'){
+                    // Admin
+                    apiEndpoint = `https://localhost:7066/v1/api/Reservations`
                 }
 
                 const response = await axios.get(apiEndpoint);

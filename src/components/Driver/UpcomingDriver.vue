@@ -10,7 +10,7 @@
 
 <script>
 import NavbarDriver from '@/components/Driver/NavbarDriver.vue';
-import ReservationUpcoming from '../Customer/ReservationUpcoming.vue'
+import ReservationUpcoming from '../Shared/ReservationUpcoming.vue'
 
 
 
@@ -18,7 +18,7 @@ export default {
   
   components: {
     NavbarDriver,
-      ReservationUpcoming,
+    ReservationUpcoming,
 
 },
 };

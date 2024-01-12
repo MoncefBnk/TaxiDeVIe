@@ -11,8 +11,8 @@
         </div>
         <button v-if="this.$store.getters.userType === '1'" @click="cancelReservation" class="cancel-button">Annuler</button>
         <button v-if="this.$store.getters.userType === '2'" @click="confirmReservation" class="confirm-button">Valider</button>
-        <button v-if="this.$store.getters.userType === '2'" @click="lancerReservation" class="lancer-button" >Lancer</button>
-        <button v-if="this.$store.getters.userType === '2'" @click="terminerReservation" class="terminer-button" >Terminer</button>
+        <button v-if="this.$store.getters.userType === '2'" @click="startReservation" class="lancer-button" >Lancer</button>
+        <button v-if="this.$store.getters.userType === '2'" @click="finishReservation" class="terminer-button" >Terminer</button>
     </div>
 </template>
 <script>
@@ -49,6 +49,41 @@ export default {
 
                 } catch (error) {
                     console.error('Error confirming reservation:', error);
+                }
+            } else {
+                console.error('Reservation or Disponibility not properly defined.');
+            }
+        },
+
+        async finishReservation() {
+            if (this.reservation) {
+                const id_reservation = this.reservation.id;
+
+                try {
+                    await axios.put(`https://localhost:7066/v1/api/Drivers/ValiderReservationsClient/${id_reservation}`);
+                    console.log('Reservation Finished!');
+                    location.reload();
+
+                } catch (error) {
+                    console.error('Error Finishing reservation:', error);
+                }
+            } else {
+                console.error('Reservation or Disponibility not properly defined.');
+            }
+        },
+
+
+        async startReservation() {
+            if (this.reservation) {
+                const id_reservation = this.reservation.id;
+
+                try {
+                    await axios.put(`https://localhost:7066/v1/api/Drivers/ValiderReservationsClient/${id_reservation}`);
+                    console.log('Reservation Started!');
+                    location.reload();
+
+                } catch (error) {
+                    console.error('Error Starting reservation:', error);
                 }
             } else {
                 console.error('Reservation or Disponibility not properly defined.');
