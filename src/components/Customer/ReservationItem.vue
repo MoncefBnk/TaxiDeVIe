@@ -21,8 +21,10 @@
         switch (this.reservation.reservations_status) {
           case 0:
             return '⏳ En cours';
+          case 1:
+            return '✅ Reservation acceptée';
           case 2:
-            return '✅ Terminé';
+            return '✅ client arrivé à destination';
           default:
             return '🔴 Inconnu';
         }
@@ -31,11 +33,11 @@
     methods: {
         async cancelReservation() {
   if (this.reservation && this.reservation.disponibility ) {
-    const idDisponibility = this.reservation.disponibility.id;
+    const id_reservations = this.reservation.id;
 
     try {
       // Make the DELETE request to your API endpoint
-      await axios.put(`https://localhost:7066/v1/api/Reservations/annuler/${idDisponibility}`);
+      await axios.put(`https://localhost:7066/v1/api/Reservations/annuler/${id_reservations}`);
       
       // Optionally, you can update your component state or perform any other actions after successful deletion
       console.log('Reservation successfully canceled!');
