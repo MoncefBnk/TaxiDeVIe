@@ -38,7 +38,7 @@
           this.reservations = response.data;
 
           // Filter reservations based on reservations_status
-          this.filteredReservations = this.reservations.filter(reservation => reservation.reservations_status === 0 );
+          this.filteredReservations = this.reservations.filter(reservation => reservation.reservations_status === 0 || reservation.reservations_status === 1);
         } else {
           console.warn('No user is currently signed in.');
         }

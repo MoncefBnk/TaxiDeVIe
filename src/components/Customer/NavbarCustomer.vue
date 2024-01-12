@@ -1,22 +1,24 @@
 <template>
-    <div>
-      <div class="navbar">
-        <div class="logo">
-          <img :src="require('@/assets/logo.png')" alt="Logo" class="logo-image" />
-        </div>
-        <div class="menu-toggle" @click="toggleMenu">
-          <i class="fas fa-bars"></i>
-          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
-        </div>
-        <div class="nav-links" :class="{ 'show': isMenuOpen }">
-          <router-link to="/customer" @click="closeMenu">Tableau de bord</router-link>
-          <router-link to="/profile" @click="closeMenu">Profil</router-link>
-          <router-link to="/upcomingCustomer" @click="closeMenu">Réservation</router-link>
-          <router-link to="/customerHistory" @click="closeMenu">Historique</router-link>
-          <router-link to="#" @click="openLogoutConfirmation">Déconnexion</router-link>
-        </div>
-  
-        <div class="logoutConfirmation" v-if="showLogoutConfirmation">
+  <div>
+    <div class="navbar">
+      <div class="logo">
+        <img :src="require('@/assets/logo.png')" alt="Logo" class="logo-image" />
+      </div>
+      <div class="menu-toggle" @click="toggleMenu">
+        <i class="fas fa-bars"></i>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+      </div>
+      <div class="nav-links" :class="{ 'show': isMenuOpen }">
+        <router-link to="/customer" @click="closeMenu">Tableau de bord</router-link>
+        <router-link to="/profile" @click="closeMenu">Profil</router-link>
+        <router-link to="/upcomingCustomer" @click="closeMenu">Réservation <span class="notification-badge">({{ ReservationcCount }})</span></router-link>
+        <router-link to="/customerHistory" @click="closeMenu">
+          Historique <span class="notification-badge">({{ filteredHistoryCount }})</span>
+        </router-link>
+        <router-link to="#" @click="openLogoutConfirmation">Déconnexion</router-link>
+      </div>
+
+      <div class="logoutConfirmation" v-if="showLogoutConfirmation">
         <div class="logoutConfirmation-content">
           <p>Êtes-vous sûr de vouloir vous déconnecter ?</p>
           <div class="logoutConfirmation-buttons">
@@ -30,100 +32,152 @@
 </template>
 
 <script>
+import axios from 'axios'; // Import axios if needed
+import { auth } from '@/firebase';
+
 export default {
   data() {
     return {
       isMenuOpen: false,
       showLogoutConfirmation: false,
+      ReservationcCount:0,
+      filteredHistoryCount :0,
+      //showNotificationBadge: false,
     };
   },
+  mounted() {
+    this.fetchReservations();
+  },
   methods: {
-      toggleMenu() {
-        this.isMenuOpen = !this.isMenuOpen;
-      },
-      closeMenu() {
-        this.isMenuOpen = false;
-      },
-      openLogoutConfirmation() {
-        this.showLogoutConfirmation = true;
-      },
-      confirmLogout() {
-        this.$store.dispatch('logout');
-        this.showLogoutConfirmation = false;
-      },
-      cancelLogout() {
-        this.showLogoutConfirmation = false;
-      },
+    async fetchReservations() {
+      try {
+        // Use Firebase authentication to get the current user
+        const user = auth.currentUser;
+
+        if (user) {
+          const userId = user.uid;
+
+          // Assuming you have an API endpoint to fetch reservations
+          const response = await axios.get(`https://localhost:7066/v1/api/Client/display/reservations/${userId}`);
+          const history = response.data;
+          const filteredHistory = history.filter(reservation => reservation.reservations_status === 2);
+          this.filteredHistoryCount = filteredHistory.length;
+
+          const Api_reponse = await axios.get(`https://localhost:7066/v1/api/Client/display/reservations/${userId}`);
+          //console.log(Api_reponse);
+          const reservation = Api_reponse.data;
+          const FilterReservation = reservation.filter(reservation => reservation.reservations_status === 0 || reservation.reservations_status === 1)
+          //console.log(FilterReservation);
+          this.ReservationcCount = FilterReservation.length;
+          console.log(this.ReservationcCount);
+          //this.showNotificationBadge = true;
+
+          // Réinitialise le badge après 1 minute
+          /*
+          setTimeout(() => {
+            this.showNotificationBadge = false;
+          }, 60000)*/
+        } else {
+          console.warn('No user is currently signed in.');
+        }
+      } catch (error) {
+        console.error('Error fetching reservations:', error);
+      }
     },
-  };
-  </script>
+    toggleMenu() {
+      this.isMenuOpen = !this.isMenuOpen;
+    },
+    closeMenu() {
+      this.isMenuOpen = false;
+    },
+    openLogoutConfirmation() {
+      this.showLogoutConfirmation = true;
+    },
+    confirmLogout() {
+      // Implement your logout logic here
+      this.$store.dispatch('logout');
+      this.showLogoutConfirmation = false;
+    },
+    cancelLogout() {
+      this.showLogoutConfirmation = false;
+    },
+  },
+};
+</script>
   
-  <style scoped>
-  
-  .navbar {
-    background-color: rgb(245, 66, 101);
-    color: white;
+<style scoped>
+.navbar {
+  background-color: rgb(245, 66, 101);
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  position: relative;
+  z-index: 1;
+}
+
+.notification-badge {
+  color: white;
+  border-radius: 50%;
+  padding: 2px 6px;
+  font-size: 0.8em;
+  margin: 0 2px;
+}
+
+.logo {
+  width: 40px;
+  height: 40px;
+}
+
+.logo-image {
+  height: 100%;
+  object-fit: cover;
+}
+
+.menu-toggle {
+  cursor: pointer;
+  display: none;
+  flex-direction: column;
+}
+
+.nav-links {
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
+
+.nav-links a,
+.nav-links router-link {
+  color: white;
+  text-decoration: none;
+  margin: 0 20px;
+  font-size: 1em;
+  padding: 5px;
+}
+
+@media screen and (max-width: 768px) {
+  .menu-toggle {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px;
-    position: relative;
-    z-index: 1;
   }
-  
-  .logo {
-    width: 40px;
-    height: 40px;
-  }
-  
-  .logo-image {
-    height: 100%;
-    object-fit: cover;
-  }
-  
-  .menu-toggle {
-    cursor: pointer;
+
+  .nav-links {
     display: none;
-    flex-direction: column;
+    position: absolute;
+    top: 50px;
+    left: 0;
+    right: 0;
+    background-color: rgb(245, 66, 101);
   }
-  
-  .nav-links {
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px;
-  }
-  
-  .nav-links a,
-  .nav-links router-link {
-    color: white;
-    text-decoration: none;
-    margin: 0 20px;
-    font-size: 1em;
-    padding: 5px;
-  }
-  
-  @media screen and (max-width: 768px) {
-  .menu-toggle {
-      display: flex;
-  }
-  
-  .nav-links {
-      display: none;
-      position: absolute;
-      top: 50px;
-      left: 0;
-      right: 0;
-      background-color: rgb(245, 66, 101);
-  }
-  
+
   .nav-links.show {
-      display: flex;
-      align-items: flex-start;
-      flex-direction: column;
-      padding: 14px;
-    }
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    padding: 14px;
   }
-  
+}
+
 .logoutConfirmation {
   display: flex;
   position: fixed;
@@ -152,5 +206,5 @@ export default {
   padding: 8px 16px;
   cursor: pointer;
 }
-  </style>
+</style>
   
