@@ -40,10 +40,10 @@ export default {
     methods: {
         async confirmReservation() {
             if (this.reservation) {
-                const idReservation = this.reservation.id;
+                const id_reservation = this.reservation.id;
 
                 try {
-                    await axios.put(`https://localhost:7066/v1/api/Drivers/ValiderReservationsClient/${idReservation}`);
+                    await axios.put(`https://localhost:7066/v1/api/Drivers/ValiderReservationsClient/${id_reservation}`);
                     console.log('Reservation successfully Confirmed!');
                     location.reload();
 
@@ -58,10 +58,10 @@ export default {
 
         async cancelReservation() {
             if (this.reservation && this.reservation.disponibility) {
-                const idDisponibility = this.reservation.disponibility.id;
+                const id_disponibility = this.reservation.disponibility.id;
 
                 try {
-                    await axios.put(`https://localhost:7066/v1/api/Reservations/annuler/${idDisponibility}`);
+                    await axios.put(`https://localhost:7066/v1/api/Reservations/annuler/${id_disponibility}`);
                     console.log('Reservation successfully canceled!');
                     location.reload();
 
