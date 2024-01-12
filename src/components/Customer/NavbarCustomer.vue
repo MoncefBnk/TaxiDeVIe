@@ -67,7 +67,6 @@ export default {
           const FilterReservation = reservation.filter(reservation => reservation.reservations_status === 0 || reservation.reservations_status === 1||reservation.reservations_status === 2)
           //console.log(FilterReservation);
           this.ReservationCount = FilterReservation.length;
-          console.log(this.ReservationCount);
         } else {
           console.warn('No user is currently signed in.');
         }
