@@ -43,7 +43,7 @@ export default {
           } else {
             reject(`Erreur lors de ${action} du trajet`);
           }
-        }, 1000); // Simulation d'un délai comme s'il s'agissait d'un appel API asynchrone
+        }, 10000); // Simulation d'un délai comme s'il s'agissait d'un appel API asynchrone
       });
     },
     simulateNewRideRequest() {
