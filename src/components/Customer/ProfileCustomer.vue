@@ -1,20 +1,19 @@
 <template>
-  <main class="profile">
-	<NavbarCustomer />
-    <section class="forms">
-      <form class="profile">
-        <h2>Profile</h2>
-
-        <input type="text" placeholder="Prénom" v-model="clientInfo.name" />
-        <input type="text" placeholder="Nom" v-model="clientInfo.lastname" />
-        <input type="email" placeholder="Adresse e-mail" v-model="clientInfo.mail_address" />
-        <input type="tel" placeholder="Numéro de téléphone" v-model="clientInfo.phone" />
-        <input type="submit" value="Engregistrer" />
-      </form>
-    </section>
-  </main>
+	<main class="profile">
+		<NavbarCustomer />
+		<section class="forms">
+			<form @submit.prevent="modifyMyAccount" class="profile">
+				<h2>Profile</h2>
+				<input type="text" placeholder="Prénom" v-model="clientInfo.name" />
+				<input type="text" placeholder="Nom" v-model="clientInfo.lastname" />
+				<input type="email" placeholder="Adresse e-mail" v-model="clientInfo.mail_address" />
+				<input type="tel" placeholder="Numéro de téléphone" v-model="clientInfo.phone" />
+				<input type="submit" value="modifier" />
+			</form>
+		</section>
+	</main>
 </template>
-
+  
 <script>
 import { ref, onMounted } from 'vue';
 import { useStore } from 'vuex';
@@ -22,26 +21,27 @@ import NavbarCustomer from '@/components/Customer/NavbarCustomer.vue';
 
 export default {
 	components: {
-      NavbarCustomer,
-     
-  },
-  setup() {
-	
-    const store = useStore();
-    
-    const clientInfo = ref(store.state.clientInfo);
+		NavbarCustomer,
+	},
+	methods: {
+		async modifyMyAccount() {
+			console.log('Merci');
+		},
+	},
+	setup() {
+		const store = useStore();
+		const clientInfo = ref(store.state.clientInfo);
 
-    onMounted(() => {
-     
-      const numberClient = store.state.numberClient; 
+		onMounted(() => {
+			const numberClient = store.state.numberClient;
 
-      store.dispatch('fetchClientInfo', numberClient);
-    });
+			store.dispatch('fetchClientInfo', numberClient);
+		});
 
-    return {
-      clientInfo,
-    };
-  },
+		return {
+			clientInfo,
+		};
+	},
 };
 </script>
 
@@ -109,10 +109,10 @@ form.profile input[type="submit"] {
 }
 
 .links {
-	color: #3498db; 
+	color: #3498db;
 	text-decoration: underline;
 	cursor: pointer;
 	margin-bottom: 2rem;
-	display: block; 
-  }
+	display: block;
+}
 </style>

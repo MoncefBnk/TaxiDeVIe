@@ -40,92 +40,91 @@ export default {
     };
   },
   methods: {
-      toggleMenu() {
-        this.isMenuOpen = !this.isMenuOpen;
-      },
-      closeMenu() {
-        this.isMenuOpen = false;
-      },
-      openLogoutConfirmation() {
-        this.showLogoutConfirmation = true;
-      },
-      confirmLogout() {
-        this.$store.dispatch('logout');
-        this.showLogoutConfirmation = false;
-      },
-      cancelLogout() {
-        this.showLogoutConfirmation = false;
-      },
+    toggleMenu() {
+      this.isMenuOpen = !this.isMenuOpen;
     },
-  };
-  </script>
+    closeMenu() {
+      this.isMenuOpen = false;
+    },
+    openLogoutConfirmation() {
+      this.showLogoutConfirmation = true;
+    },
+    confirmLogout() {
+      this.$store.dispatch('logout');
+      this.showLogoutConfirmation = false;
+    },
+    cancelLogout() {
+      this.showLogoutConfirmation = false;
+    },
+  },
+};
+</script>
   
-  <style scoped>
-  
-  .navbar {
-    background-color: rgb(245, 66, 101);
-    color: white;
+<style scoped>
+.navbar {
+  background-color: rgb(245, 66, 101);
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  position: relative;
+  z-index: 1;
+}
+
+.logo {
+  width: 40px;
+  height: 40px;
+}
+
+.logo-image {
+  height: 100%;
+  object-fit: cover;
+}
+
+.menu-toggle {
+  cursor: pointer;
+  display: none;
+  flex-direction: column;
+}
+
+.nav-links {
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
+
+.nav-links a,
+.nav-links router-link {
+  color: white;
+  text-decoration: none;
+  margin: 0 20px;
+  font-size: 1em;
+  padding: 5px;
+}
+
+@media screen and (max-width: 768px) {
+  .menu-toggle {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px;
-    position: relative;
-    z-index: 1;
   }
-  
-  .logo {
-    width: 40px;
-    height: 40px;
-  }
-  
-  .logo-image {
-    height: 100%;
-    object-fit: cover;
-  }
-  
-  .menu-toggle {
-    cursor: pointer;
+
+  .nav-links {
     display: none;
-    flex-direction: column;
+    position: absolute;
+    top: 50px;
+    left: 0;
+    right: 0;
+    background-color: rgb(245, 66, 101);
   }
-  
-  .nav-links {
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px;
-  }
-  
-  .nav-links a,
-  .nav-links router-link {
-    color: white;
-    text-decoration: none;
-    margin: 0 20px;
-    font-size: 1em;
-    padding: 5px;
-  }
-  
-  @media screen and (max-width: 768px) {
-  .menu-toggle {
-      display: flex;
-  }
-  
-  .nav-links {
-      display: none;
-      position: absolute;
-      top: 50px;
-      left: 0;
-      right: 0;
-      background-color: rgb(245, 66, 101);
-  }
-  
+
   .nav-links.show {
-      display: flex;
-      align-items: flex-start;
-      flex-direction: column;
-      padding: 14px;
-    }
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    padding: 14px;
   }
-  
+}
+
 .logoutConfirmation {
   display: flex;
   position: fixed;
@@ -154,5 +153,5 @@ export default {
   padding: 8px 16px;
   cursor: pointer;
 }
-  </style>
+</style>
   

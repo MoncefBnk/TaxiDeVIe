@@ -35,14 +35,14 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 70vh; 
+  height: 70vh;
 }
 
 .content-container {
   display: flex;
   flex-direction: column-reverse;
-  align-items: center; 
-  justify-content: center; 
+  align-items: center;
+  justify-content: center;
 }
 
 .slogan-container {

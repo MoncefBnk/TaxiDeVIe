@@ -45,7 +45,8 @@
         </div>
       </div>
       <ul class="answer" v-show="showAnswer[3]">
-        <li>Vous bénéficierez d'une réduction par rapport au tarif normal pendant les heures de service "Taxis de Vie".</li>
+        <li>Vous bénéficierez d'une réduction par rapport au tarif normal pendant les heures de service "Taxis de Vie".
+        </li>
       </ul>
     </div>
 
@@ -58,7 +59,8 @@
         </div>
       </div>
       <ul class="answer" v-show="showAnswer[4]">
-        <li>Chaque véhicule Taxis de Vie peut accueillir six passagers. Le principe est que tous les sièges doivent être occupés.</li>
+        <li>Chaque véhicule Taxis de Vie peut accueillir six passagers. Le principe est que tous les sièges doivent être
+          occupés.</li>
       </ul>
     </div>
 
@@ -84,7 +86,8 @@
         </div>
       </div>
       <ul class="answer" v-show="showAnswer[6]">
-        <li>Vous pouvez réserver par téléphone à partir de 18h00 le Vendredi, également par SMS ou utilisez le formulaire en ligne.</li>
+        <li>Vous pouvez réserver par téléphone à partir de 18h00 le Vendredi, également par SMS ou utilisez le formulaire
+          en ligne.</li>
       </ul>
     </div>
 
@@ -248,5 +251,4 @@ ul ul {
     flex: 0 0 100%;
     margin-top: 10px; 
   }
-}
-</style>
+}</style>
