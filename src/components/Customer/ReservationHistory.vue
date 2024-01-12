@@ -31,26 +31,33 @@ export default {
         // Use Firebase authentication to get the current user
         const user = auth.currentUser;
 
-                if (user) {
-                    const userId = user.uid;
+        if (user) {
+          const userId = user.uid;
+          setInterval(async () => {
+            try {
+              // Use the user ID in the API request
+              const response = await axios.get(`https://localhost:7066/v1/api/Client/display/reservations/${userId}`);
+              this.reservations = response.data;
 
-                    // Use the user ID in the API request
-                    const response = await axios.get(`https://localhost:7066/v1/api/Client/display/reservations/${userId}`);
-                    this.reservations = response.data;
-
-                    // Filter reservations based on reservations_status
-                    this.filteredReservations = this.reservations.filter(reservation => reservation.reservations_status === 1);
-                } else {
-                    console.warn('No user is currently signed in.');
-                }
+              // Filter reservations based on reservations_status
+              this.filteredReservations = this.reservations.filter(reservation => reservation.reservations_status === 1);
+              console.log(this.filteredReservations);
             } catch (error) {
-                console.error('Error fetching reservations:', error);
+              console.error('Error fetching reservations:', error);
             }
-        },
+          }, 1000);
+
+        } else {
+          console.warn('No user is currently signed in.');
+        }
+      } catch (error) {
+        console.error('Error fetching reservations:', error);
+      }
     },
-    components: {
-        ReservationItem,
-    },
+  },
+  components: {
+    ReservationItem,
+  },
 };
 </script>
 
