@@ -63,18 +63,17 @@
             </p>
             <div class="seat-buttons">
               <div v-for="slot in slots" :key="slot.id_disponibility" class="seat-button">
-                <button @click="handleButtonClick(slot)" :class="{ 'selected': heure === slot.heure }">
-                  {{ slot.heure }}
-                </button>
+                <button @click="handleButtonClick(slot)"
+                  :class="{ 'selected': heure === slot.id_disponibility, 'button-selected': heure === slot.id_disponibility }">
+            {{ slot.heure }}
+          </button>
               </div>
             </div>
           </div>
         </template>
         <p v-else>Aucune disponibilité</p>
       </div>
-      <div v-if="currentPage === 4" class="step-content">
-        <h2>Étape 5: Confirmer</h2>
-      </div>
+      
 
       <div class="btn-group">
         <button v-if="currentPage > 0" @click="goToPage(currentPage - 1)" class="btn">Précédent</button>
@@ -110,7 +109,7 @@ export default {
       AllAdresse: ref([]),
       AllDisponibility: ref([]),
       validedForm: ref(false),
-      steps: ['Emplacement', 'Temps', 'Compagnon', 'Capacité', 'Carte & Réservation'],
+      steps: ['Emplacement', 'Temps', 'Compagnon', 'Capacité'],
     };
   },
   methods: {
