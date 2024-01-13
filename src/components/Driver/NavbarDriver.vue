@@ -13,8 +13,8 @@
         <router-link to="/profileDriver" @click="closeMenu">Profil</router-link>
         <router-link to="/planning" @click="closeMenu">Planning</router-link>
         <router-link to="/approval" @click="closeMenu">Validation</router-link>
-        <router-link to="/upcomingDriver" @click="closeMenu">Réservations <span class="notification-badge">({{ ReservationCount }})</span></router-link>
-        <router-link to="/driverHistory" @click="closeMenu">Historique <span class="notification-badge">({{ filteredHistoryCount }})</span></router-link>
+        <router-link to="/upcomingDriver" @click="closeMenu">Réservations<span class="notification-badge">({{ ReservationCount }})</span></router-link>
+        <router-link to="/driverHistory" @click="closeMenu">Historique<span class="notification-badge">({{ filteredHistoryCount }})</span></router-link>
         <router-link to="#" @click="openLogoutConfirmation">Déconnexion</router-link>
       </div>
 
@@ -43,10 +43,12 @@ export default {
       filteredHistoryCount :0,
     };
   },
+  mounted() {
+    this.fetchReservations();
+  },
   methods: {
     async fetchReservations() {
       try {
-        // Use Firebase authentication to get the current user
         const user = auth.currentUser;
 
         if (user) {
@@ -57,6 +59,7 @@ export default {
           const history = response.data;
           const filteredHistory = history.filter(reservation => reservation.reservations_status === 3);
           this.filteredHistoryCount = filteredHistory.length;
+          console.log(this.filteredHistoryCount);
 
           const Api_reponse = await axios.get(`https://localhost:7066/v1/api/Drivers/AllReservationsDriver/${userId}`);
           //console.log(Api_reponse);
