@@ -45,6 +45,7 @@ export default {
   },
   mounted() {
     this.fetchReservations();
+    setInterval(this.fetchReservations, 5000)
   },
   methods: {
     async fetchReservations() {

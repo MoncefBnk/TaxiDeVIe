@@ -9,10 +9,12 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
       </div>
       <div class="nav-links" :class="{ 'show': isMenuOpen }">
-        <router-link to="/customer" @click="closeMenu">Tableau de bord</router-link>
-        <router-link to="/profile" @click="closeMenu">Profil</router-link>
-        <router-link to="/upcomingCustomer" @click="closeMenu">Réservation <span class="notification-badge">({{ ReservationCount }})</span></router-link>
-        <router-link to="/customerHistory" @click="closeMenu"> Historique <span class="notification-badge">({{ filteredHistoryCount }})</span></router-link>
+        <router-link to="/driver" @click="closeMenu">Tableau de bord</router-link>
+        <router-link to="/profileDriver" @click="closeMenu">Profil</router-link>
+        <router-link to="/planning" @click="closeMenu">Planning</router-link>
+        <router-link to="/approval" @click="closeMenu">Validation <span class="notification-badge">({{ValidedAcount  }})</span></router-link>
+        <router-link to="/upcomingDriver" @click="closeMenu">Réservations <span class="notification-badge">({{ ReservationCount }})</span></router-link>
+        <router-link to="/driverHistory" @click="closeMenu">Historique <span class="notification-badge">({{ filteredHistoryCount }})</span></router-link>
         <router-link to="#" @click="openLogoutConfirmation">Déconnexion</router-link>
       </div>
 
@@ -32,19 +34,19 @@
 <script>
 import axios from 'axios'; // Import axios if needed
 import { auth } from '@/firebase';
-
 export default {
   data() {
     return {
       isMenuOpen: false,
       showLogoutConfirmation: false,
+      ValidedAcount:0,
       ReservationCount:0,
       filteredHistoryCount :0,
-
     };
   },
   mounted() {
     this.fetchReservations();
+    setInterval(this.fetchReservations, 5000);
   },
   methods: {
     async fetchReservations() {
@@ -54,19 +56,21 @@ export default {
 
         if (user) {
           const userId = user.uid;
-
           // Assuming you have an API endpoint to fetch reservations
           const response = await axios.get(`https://localhost:7066/v1/api/Drivers/AllReservationsDriver/${userId}`);
-          const history = response.data;
-          const filteredHistory = history.filter(reservation => reservation.reservations_status === 3);
+          const filteredHistory = response.data.filter(reservation => reservation.reservations_status === 3);
           this.filteredHistoryCount = filteredHistory.length;
 
-          const Api_reponse = await axios.get(`https://localhost:7066/v1/api/Drivers/AllReservationsDriver//${userId}`);
+          const Api_reponse = await axios.get(`https://localhost:7066/v1/api/Drivers/AllReservationsDriver/${userId}`);
           //console.log(Api_reponse);
           const reservation = Api_reponse.data;
-          const FilterReservation = reservation.filter(reservation =>reservation.reservations_status === 1||reservation.reservations_status === 2)
+          const FilterReservation = reservation.filter(reservation => reservation.reservations_status === 1 || reservation.reservations_status === 2);
           //console.log(FilterReservation);
           this.ReservationCount = FilterReservation.length;
+
+          const Api_Valided = await axios.get(`https://localhost:7066/v1/api/Drivers/AllReservationsDriver/${userId}`);
+          const FilterValided = Api_Valided.data.filter(reservation=> reservation.reservations_status === 0);
+          this.ValidedAcount =FilterValided.length;
         } else {
           console.warn('No user is currently signed in.');
         }
@@ -84,7 +88,6 @@ export default {
       this.showLogoutConfirmation = true;
     },
     confirmLogout() {
-      // Implement your logout logic here
       this.$store.dispatch('logout');
       this.showLogoutConfirmation = false;
     },
@@ -106,7 +109,6 @@ export default {
   position: relative;
   z-index: 1;
 }
-
 .notification-badge {
   color: white;
   border-radius: 50%;
@@ -114,7 +116,6 @@ export default {
   font-size: 0.8em;
   margin: 0 2px;
 }
-
 .logo {
   width: 40px;
   height: 40px;
