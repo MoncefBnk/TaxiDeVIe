@@ -53,7 +53,7 @@ export default {
                         } catch (error) {
                             console.error('Error fetching reservations:', error);
                         }
-                    }, 10000);
+                    }, 4000);
 
                     // Check user type
                     if (this.$store.getters.userType === '1') {
