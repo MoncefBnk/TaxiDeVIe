@@ -10,7 +10,7 @@
         </div>
         <div class="nav-links" :class="{ 'show': isMenuOpen }">
           <router-link to="/admin" @click="closeMenu">Tableau de bord</router-link>
-          <router-link to="/upcomingAll" @click="closeMenu">Réservation <span class="notification-badge">({{ ReservationcCount }})</span></router-link>
+          <router-link to="/upcomingAll" @click="closeMenu">Réservation <span class="notification-badge">({{ ReservationCount }})</span></router-link>
           <router-link to="#" @click="openLogoutConfirmation">Déconnexion</router-link>
         </div>
   
@@ -36,8 +36,7 @@
       return {
         isMenuOpen: false,
         showLogoutConfirmation: false,
-        ReservationcCount:0,
-        filteredHistoryCount :0,
+        ReservationCount:0,
         //showNotificationBadge: false,
       };
     },
@@ -46,40 +45,26 @@
     },
     methods: {
       async fetchReservations() {
-        try {
-          // Use Firebase authentication to get the current user
-          const user = auth.currentUser;
-  
-          if (user) {
-            const userId = user.uid;
-  
-            // Assuming you have an API endpoint to fetch reservations
-            const response = await axios.get(`https://localhost:7066/v1/api/Client/display/reservations/${userId}`);
-            const history = response.data;
-            const filteredHistory = history.filter(reservation => reservation.reservations_status === 2);
-            this.filteredHistoryCount = filteredHistory.length;
-  
-            const Api_reponse = await axios.get(`https://localhost:7066/v1/api/Client/display/reservations/${userId}`);
-            //console.log(Api_reponse);
-            const reservation = Api_reponse.data;
-            const FilterReservation = reservation.filter(reservation => reservation.reservations_status === 0 || reservation.reservations_status === 1)
-            //console.log(FilterReservation);
-            this.ReservationcCount = FilterReservation.length;
-            console.log(this.ReservationcCount);
-            //this.showNotificationBadge = true;
-  
-            // Réinitialise le badge après 1 minute
-            /*
-            setTimeout(() => {
-              this.showNotificationBadge = false;
-            }, 60000)*/
-          } else {
-            console.warn('No user is currently signed in.');
-          }
-        } catch (error) {
-          console.error('Error fetching reservations:', error);
+      try {
+        const user = auth.currentUser;
+
+        if (user) {
+          
+          const Api_reponse = await axios.get(`https://localhost:7066/v1/api/Reservations`);
+          //console.log(Api_reponse);
+          const reservation = Api_reponse.data;
+          const FilterReservation = reservation.filter(reservation => reservation.reservations_status === 0 || reservation.reservations_status === 1 || reservation.reservations_status === 2)
+          //console.log(FilterReservation);
+          this.ReservationCount = FilterReservation.length;
+          console.log(this.ReservationCount);
+          
+        } else {
+          console.warn('No user is currently signed in.');
         }
-      },
+      } catch (error) {
+        console.error('Error fetching reservations:', error);
+      }
+    },
       toggleMenu() {
         this.isMenuOpen = !this.isMenuOpen;
       },
