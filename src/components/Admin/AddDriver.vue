@@ -54,13 +54,13 @@ export default {
         const idCarNumber = Number(this.register_form.id_car);
         // Extract only the necessary data for the API call
         const apiData = {
-          id_driver: this.register_form.id_driver,
+          id_driver: this.register_form.id_driver, //sur la premiere page du formulaire
           id_car: idCarNumber,
           driver_matricule: this.register_form.driver_matricule,
           name: this.register_form.fullName,
           lastName: this.register_form.lastName,
           userType: this.register_form.userType,
-          mail_address: this.register_form.email,
+          mail_address: this.register_form.email, //sur la premiere page du formulaire
           phone: this.register_form.phoneNumber,
           adress: this.register_form.adress,
         };
