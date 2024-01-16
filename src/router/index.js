@@ -20,6 +20,7 @@ import UpcomingCustomer from '@/components/Customer/UpcomingCustomer.vue';
 import UpcomingAdmin from '@/components/Admin/UpcomingAll.vue';
 import LoadingPage from '@/components/Shared/LoadingPage.vue'
 import PlanningDriver from '@/components/Driver/PlanningDriver.vue';
+import DisplayDriver from'@/components/Admin/DisplayDriver.vue';
 import store from '@/store'; // Import the Vuex store
 
 const routes = [
@@ -44,6 +45,8 @@ const routes = [
   { path: '/loading', name: 'Loading', component: LoadingPage, meta: { requiresAuth: true } },
   { path: '/profileDriver', name: 'ProfileDriver', component: ProfileDriver, meta: { requiresAuth: true } },
   { path: '/planning', name: 'Planning', component: PlanningDriver, meta : {requiresAuth: true} },  
+  { path: '/displayAllDriver', name: 'AllDriver', component: DisplayDriver, meta : {requiresAuth: true} }, 
+ 
 ];
 
 const router = createRouter({

@@ -48,33 +48,31 @@
         </div>
       </div>
       <div v-if="currentPage === 3" class="step-content">
-        <h2>Étape 4: choix du créneau </h2>
-        <template v-if="validedForm">
-          <div v-for="(slots, dateUnique) in AllDisponibility" :key="dateUnique">
-            <p>
-              {{
-                new Date(dateUnique).toLocaleDateString('fr-FR', {
-                  weekday: 'long',
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric'
-                })
-              }}
-            </p>
-            <div class="seat-buttons">
-              <div v-for="slot in slots" :key="slot.id_disponibility" class="seat-button">
-                <button @click="handleButtonClick(slot)" :class="{ 'selected': heure === slot.heure }">
-                  {{ slot.heure }}
-                </button>
-              </div>
-            </div>
-          </div>
-        </template>
-        <p v-else>Aucune disponibilité</p>
+  <h2>Étape 4: choix du créneau </h2>
+  <template v-if="validedForm">
+    <div v-for="(slots, dateUnique) in AllDisponibility" :key="dateUnique">
+      <p>
+        {{
+          new Date(dateUnique).toLocaleDateString('fr-FR', {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+          })
+        }}
+      </p>
+      <div class="dispo-buttons">
+        <div v-for="slot in slots" :key="slot.id_disponibility" class="dispo-button">
+          <button @click="handleButtonClick(slot)"
+            :class="{ 'selected': heure === slot.id_disponibility }">
+            {{ slot.heure }}
+          </button>
+        </div>
       </div>
-      <div v-if="currentPage === 4" class="step-content">
-        <h2>Étape 5: Confirmer</h2>
-      </div>
+    </div>
+  </template>
+  <p v-else>Aucune disponibilité</p>
+</div>
 
       <div class="btn-group">
         <button v-if="currentPage > 0" @click="goToPage(currentPage - 1)" class="btn">Précédent</button>
@@ -88,6 +86,7 @@
     </div>
   </div>
 </template>
+
 <script>
 import axios from 'axios';
 import { auth } from "../../firebase/index"
@@ -96,12 +95,9 @@ import { ref, onMounted, computed } from 'vue';
 export default {
   data() {
     return {
-
       lieuDePriseEnCharge: '',
       lieuDeDepose: '',
       departureTime: '',
-      companionName: '',
-      companionAge: '',
       numberOfPersons: 1,
       departureDate: '',
       heure: '',
@@ -110,23 +106,10 @@ export default {
       AllAdresse: ref([]),
       AllDisponibility: ref([]),
       validedForm: ref(false),
-      steps: ['Emplacement', 'Temps', 'Compagnon', 'Capacité', 'Carte & Réservation'],
+      steps: ['Emplacement', 'Temps', 'Compagnon', 'Capacité'],
     };
   },
   methods: {
-    // Fonction pour récupérer les horaires depuis MongoDB
-    // async fetchScheduleFromMongo() {
-    //   try {
-    //     // Faire un appel asynchrone pour récupérer les horaires depuis MongoDB
-    //     const response = await yourApiCallToGetSchedule();  // remplacez par API de namory
-
-    //     // Mettre à jour l'état du composant en fonction de l'horaire récupéré
-    //     this.departureDate = response.departureDate;
-    //     this.departureTime = response.departureTime;
-    //   } catch (error) {
-    //     console.error('Erreur lors de la récupération de l\'horaire :', error);
-    //   }
-    // },
     async getDisponibility(numberpeople, departureTime, departureDate) {
       try {
         const apiDisponibility = await axios.get(`https://localhost:7066/v1/api/disponibility/${numberpeople}/${departureTime}/${departureDate}`);
@@ -165,7 +148,7 @@ export default {
     },
     async handleButtonClick(slot) {
       try {
-        const user = await auth.currentUser; // Use 'await' here
+        const user = await auth.currentUser;
         if (user) {
           this.creneauxDispo = {
             "Disponibility": {
@@ -180,6 +163,7 @@ export default {
             "adresse_end": this.lieuDeDepose,
             "number_people": this.numberOfPersons
           };
+          this.heure = slot.id_disponibility;
         }
       } catch (error) {
         console.error('Erreur lors de la récupération de l\'adresse de l\'utilisateur:', error);
@@ -197,14 +181,12 @@ export default {
     onAddressInputChange(adress) {
       this.getAddressData(adress);
     },
-
     setup() {
       onMounted(() => {
         this.getAddressData(this.lieuDePriseEnCharge);
       });
       this.getAddressForCurrentUser();
     },
-
     async reserver() {
       try {
         this.$router.push('/loading')
@@ -221,7 +203,6 @@ export default {
         });
         this.$router.push('/Confirmation-Reservation');
         console.log('Reservation successful!');
-
       } catch (error) {
         this.handleReservationError(error);
         console.error('Error during reservation:', error);
@@ -239,16 +220,10 @@ export default {
     goToPage(pageNumber) {
       this.currentPage = pageNumber;
       this.getDisponibility(this.numberOfPersons, this.departureTime.toString(), this.departureDate.toString());
-      //console.log(this.AllDisponibility);
-      //Récupérer l'horaire lors de la navigation vers la deuxième étape
-      // if (pageNumber === 1) {
-      //   this.fetchScheduleFromMongo();
-      // }
     },
     selectNumberOfPersons(number) {
       this.numberOfPersons = number;
     },
-
   },
 };
 </script>
@@ -333,11 +308,6 @@ h2 {
   border-radius: 4px;
 }
 
-.button-selected {
-  background-color: pink;
-  /* Ajoutez les styles pour la couleur rose */
-}
-
 .btn:hover {
   background: rgb(245, 66, 101);
 }
@@ -365,5 +335,29 @@ h2 {
 .seat-buttons button.selected {
   background: rgb(245, 66, 101);
   color: #FFF;
+}
+.dispo-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.dispo-button {
+  width: 48%;
+  margin-bottom: 10px;
+}
+
+.dispo-buttons button {
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  cursor: pointer;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.dispo-buttons button.selected {
+  background: rgb(245, 66, 101);
+  color: #FFF;
+  border: 1px solid rgb(245, 66, 101);
 }
 </style>

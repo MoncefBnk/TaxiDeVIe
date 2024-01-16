@@ -9,6 +9,9 @@
 				<input type="email" placeholder="Adresse e-mail" v-model="clientInfo.mail_address" />
 				<input type="tel" placeholder="Numéro de téléphone" v-model="clientInfo.phone" />
 				<input type="submit" value="modifier" />
+				<div v-if="profileUpdated" class="success-message">
+					Le profil a été mis à jour avec succès!
+				</div>
 			</form>
 		</section>
 	</main>
@@ -18,14 +21,40 @@
 import { ref, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import NavbarCustomer from '@/components/Customer/NavbarCustomer.vue';
-
+import axios from 'axios';
+import { auth } from '@/firebase';
 export default {
+	data() {
+		return {
+			profileUpdated: false,
+		};
+	},
 	components: {
 		NavbarCustomer,
 	},
 	methods: {
 		async modifyMyAccount() {
-			console.log('Merci');
+			//Calling API to uspdate driver ....
+			const user = auth.currentUser;
+			const numberClient = user.reloadUserInfo.localId;
+			const updateData = {
+				id: this.clientInfo.id,
+				numberClient: numberClient,
+				name: this.clientInfo.name,
+				lastname: this.clientInfo.lastname,
+				mail_address: this.clientInfo.mail_address,
+				userType: this.clientInfo.userType,
+				adress: this.clientInfo.adress,
+				phone: this.clientInfo.phone,
+			};
+			const update = await axios.put(`https://localhost:7066/v1/api/Client/${this.clientInfo.id}`, updateData);
+			update.data.jsoon;
+			this.clientInfo = updateData;
+			this.profileUpdated = true;
+			console.log(this.clientInfo);
+			 setTimeout(() => {
+          this.profileUpdated = false;
+        }, 3000);
 		},
 	},
 	setup() {
@@ -34,7 +63,6 @@ export default {
 
 		onMounted(() => {
 			const numberClient = store.state.numberClient;
-
 			store.dispatch('fetchClientInfo', numberClient);
 		});
 
@@ -48,6 +76,11 @@ export default {
 
   
 <style>
+.success-message {
+	color: green;
+	margin-top: 10px;
+}
+
 .forms {
 	display: flex;
 	min-height: 100vh;

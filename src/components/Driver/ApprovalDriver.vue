@@ -26,6 +26,7 @@ export default {
   },
   mounted() {
       this.fetchReservations();
+      setInterval(this.fetchReservations, 5000)
   },
   methods: {
       async fetchReservations() {
@@ -35,7 +36,6 @@ export default {
               if (user) {
                   const userId = user.uid;
                   let apiEndpoint;
-                  setInterval(async () => {
                       try {
                           if (this.$store.getters.userType === '1') {
                               // Customer
@@ -56,7 +56,6 @@ export default {
                       } catch (error) {
                           console.error('Error fetching reservations:', error);
                       }
-                  }, 10000);
 
                   // Check user type
                   if (this.$store.getters.userType === '1') {
