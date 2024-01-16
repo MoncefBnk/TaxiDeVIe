@@ -1,28 +1,66 @@
 /* eslint-disable */
 
 <template>
-  <main class="login">
+  <div>
     <NavbarAdmin />
-    <section class="forms">
-      <form class="login" @submit.prevent="registerDriver">
-        <h2>Ajouter un chauffeur :</h2>
-        <input type="text" placeholder="IdDriver" v-model="register_form.id_driver" />
-        <input type="text" placeholder="Prénom" v-model="register_form.fullName" />
-        <input type="text" placeholder="Nom" v-model="register_form.lastName" />
-        <input type="email" placeholder="Adresse e-mail" v-model="register_form.email" />
-        <input type="number" placeholder="Identifiant de la voiture assignée" v-model="register_form.id_car" />
-        <input type="text" placeholder="Matricule Chauffeur" v-model="register_form.driver_matricule" />
-        <input type="text" placeholder="Adresse" v-model="register_form.adress" />
-        <input type="tel" placeholder="Numéro de téléphone" v-model="register_form.phoneNumber" />
-        <input type="submit" value="Ajouter un chauffeur" />
-      </form>
-    </section>
-  </main>
-</template> -->
+    <div class="form-container">
+      <h1>Ajouter un chauffeur</h1>
+      <div class="form-content">
+        <div v-if="currentPage === 0" class="step-content">
+          <h2>Étape 1 </h2>
+          <div class="form-group">
+            <label>IdDriver</label>
+            <input type="text" v-model="register_form.id_driver" required>
+          </div>
+          <div class="form-group">
+            <label>Adresse e-mail</label>
+            <input type="email" v-model="register_form.email" required>
+          </div>
+        </div>
 
+        <div v-if="currentPage === 1" class="step-content">
+          <h2>Étape 2</h2>
+          <div class="form-group">
+            <label>Prénom</label>
+            <input type="text" v-model="register_form.fullName" required>
+          </div>
+          <div class="form-group">
+            <label>Nom</label>
+            <input type="text" v-model="register_form.lastName" required>
+          </div>
+          <div class="form-group">
+            <label>Identifiant de la voiture assignée</label>
+            <input type="number" v-model="register_form.id_car" required>
+          </div>
+          <div class="form-group">
+            <label>Matricule Chauffeur</label>
+            <input type="text" v-model="register_form.driver_matricule" required>
+          </div>
+          <div class="form-group">
+            <label>Adresse</label>
+            <input type="text" v-model="register_form.address" required>
+          </div>
+          <div class="form-group">
+            <label>Numéro de téléphone</label>
+            <input type="tel" v-model="register_form.phoneNumber" required>
+          </div>
+        </div>
+
+        <div class="btn-group">
+          <button v-if="currentPage > 0" @click="goToPage(currentPage - 1)" class="btn">Précédent</button>
+          <button v-if="currentPage < steps.length - 1" @click="goToPage(currentPage + 1)" class="btn">Suivant</button>
+          <button v-if="currentPage === steps.length - 1" @click="registerDriver" class="btn">Ajouter le chauffeur</button>
+        </div>
+      </div>
+
+      <div class="progress-dots">
+        <div v-for="(step, index) in steps" :key="index" class="dot" :class="{ 'active': index === currentPage }"></div>
+      </div>
+    </div>
+  </div>
+</template>
 
 <script>
-
 import NavbarAdmin from './NavbarAdmin.vue';
 import axios from 'axios';
 
@@ -30,16 +68,21 @@ export default {
   data() {
     return {
       register_form: {
-        id_driver: '',            // Example property with an empty string as the initial value
+        id_driver: '',
         id_car: 0,
         driver_matricule: '',
         fullName: '',
         lastName: '',
-        userType: '2',            // Set the default userType to '2'
+        userType: '2',
         email: '',
         phoneNumber: '',
-        address: '',              // Added 'address' property as per your request
+        address: '',
       },
+      steps: [
+        { title: 'Etape 1' },
+        { title: 'Etape 2' },
+      ],
+      currentPage: 0,
     };
   },
 
@@ -54,13 +97,13 @@ export default {
         const idCarNumber = Number(this.register_form.id_car);
         // Extract only the necessary data for the API call
         const apiData = {
-          id_driver: this.register_form.id_driver, //sur la premiere page du formulaire
+          id_driver: this.register_form.id_driver, //sur la premiere page du formulaire ok
           id_car: idCarNumber,
           driver_matricule: this.register_form.driver_matricule,
           name: this.register_form.fullName,
           lastName: this.register_form.lastName,
           userType: this.register_form.userType,
-          mail_address: this.register_form.email, //sur la premiere page du formulaire
+          mail_address: this.register_form.email, //sur la premiere page du formulaire ok
           phone: this.register_form.phoneNumber,
           adress: this.register_form.adress,
         };
@@ -87,103 +130,98 @@ export default {
         console.error('Error registering user with API:', error.message);
       }
     },
+
+    goToPage(pageNumber) {
+      this.currentPage = pageNumber;
+    },
   },
 };
 </script>
 
 
 
-<style>
-.forms {
+<style scoped>
+.form-container {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 16px;
+}
+
+.form-group input {
+  width: 100%;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-bottom: 16px;
+}
+
+.progress-dots {
   display: flex;
-  min-height: 100vh;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  justify-content: center;
 }
 
-form {
-  flex: 1 1 0%;
-  padding: 6rem 1rem 1rem;
-}
-
-form.register {
-  color: #FFF;
+.dot {
+  width: 10px;
+  height: 10px;
   background-color: rgb(245, 66, 101);
-  background-image: linear-gradient(to bottom right,
-      rgb(245, 66, 101) 0%,
-      rgb(189, 28, 60) 100%);
+  border-radius: 50%;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.dot.active {
+  background-color: rgb(143, 4, 32);
+}
+
+.form-content {
+  background: #FFF;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.step-content {
+  margin-bottom: 20px;
+}
+
+h1 {
+  font-size: 30px;
 }
 
 h2 {
-  font-size: 2rem;
-  text-transform: uppercase;
-  margin-bottom: 2rem;
+  font-size: 25px;
 }
 
-input {
-  appearance: none;
+.btn-group {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.btn {
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  background: rgb(245, 66, 101);
+  color: #FFF;
   border: none;
-  outline: none;
-  background: none;
-
-  display: block;
-  width: 100%;
-  max-width: 400px;
-  margin: 0 auto;
-  font-size: 1.5rem;
-  margin-bottom: 2rem;
-  padding: 0.5rem 0rem;
+  border-radius: 4px;
 }
 
-input:not([type="submit"]) {
-  opacity: 0.8;
-  transition: 0.4s;
+.btn:hover {
+  background: rgb(245, 66, 101);
 }
 
-input:focus:not([type="submit"]) {
-  opacity: 1;
-}
-
-input::placeholder {
-  color: inherit;
-}
-
-form.register input:not([type="submit"]) {
-  color: #FFF;
-  border-bottom: 2px solid #FFF;
-}
-
-form.login input:not([type="submit"]) {
-  color: #2c3e50;
-  border-bottom: 2px solid #2c3e50;
-}
-
-form.login input[type="submit"] {
-  background-color: rgb(245, 66, 101);
-  color: #FFF;
-  font-weight: 700;
-  padding: 1rem 2rem;
-  border-radius: 0.5rem;
-  cursor: pointer;
-  text-transform: uppercase;
-}
-
-form.register input[type="submit"] {
-  background-color: #FFF;
-  color: rgb(245, 66, 101);
-  font-weight: 700;
-  padding: 1rem 2rem;
-  border-radius: 0.5rem;
-  cursor: pointer;
-  text-transform: uppercase;
-}
-
-.register-links {
-  color: #FFF;
-  text-decoration: underline;
-  cursor: pointer;
-  margin-bottom: 2rem;
-  display: block;
-}
 </style>
+
 
 <!-- <script>
 import { ref } from 'vue';
