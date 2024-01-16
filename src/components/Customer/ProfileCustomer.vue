@@ -52,9 +52,9 @@ export default {
 			this.clientInfo = updateData;
 			this.profileUpdated = true;
 			console.log(this.clientInfo);
-			 setTimeout(() => {
+			setTimeout(() => {
           this.profileUpdated = false;
-        }, 3000);
+        }, 5000);
 		},
 	},
 	setup() {
