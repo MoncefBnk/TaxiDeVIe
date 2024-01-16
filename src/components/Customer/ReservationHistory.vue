@@ -49,11 +49,11 @@ export default {
                             this.reservations = response.data;
 
                             // Filter reservations based on reservations_status
-                            this.filteredReservations = this.reservations.filter(reservation => reservation.reservations_status === 3 );
+                            this.filteredReservations = this.reservations.filter(reservation => reservation.reservations_status === 3);
                         } catch (error) {
                             console.error('Error fetching reservations:', error);
                         }
-                    },3000);
+                    }, 3000);
 
                     // Check user type
                     if (this.$store.getters.userType === '1') {
