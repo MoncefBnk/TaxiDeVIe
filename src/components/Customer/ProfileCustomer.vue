@@ -3,7 +3,7 @@
 		<NavbarCustomer />
 		<section class="forms">
 			<form @submit.prevent="modifyMyAccount" class="profile">
-				<h2>Profile</h2>
+				<h2>Profil</h2>
 				<input type="text" placeholder="Prénom" v-model="clientInfo.name" />
 				<input type="text" placeholder="Nom" v-model="clientInfo.lastname" />
 				<input type="email" placeholder="Adresse e-mail" v-model="clientInfo.mail_address" />
@@ -34,7 +34,6 @@ export default {
 	},
 	methods: {
 		async modifyMyAccount() {
-			//Calling API to uspdate driver ....
 			const user = auth.currentUser;
 			const numberClient = user.reloadUserInfo.localId;
 			const updateData = {
@@ -88,7 +87,7 @@ export default {
 
 form {
 	flex: 1 1 0%;
-	padding: 8rem 1rem 1rem;
+	padding: 1rem 1rem 1rem;
 }
 
 h2 {

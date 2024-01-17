@@ -6,16 +6,14 @@
       <div v-if="currentPage === 0" class="step-content">
         <h2>Étape 1: Informations sur le lieu</h2>
         <div class="form-group">
-          <label>adresse de départ</label>
-          <input type="text" required list="adresse" v-model="lieuDePriseEnCharge"
+          <input type="text" required list="adresse" placeholder="adresse de départ" v-model="lieuDePriseEnCharge"
             @input="onAddressInputChange(lieuDePriseEnCharge)">
           <datalist id="adresse">
             <option v-for="(city, index) in AllAdresse" :key="index">{{ city }}</option>
           </datalist>
         </div>
         <div class="form-group">
-          <label>adresse d'arrivée</label>
-          <input type="text" list="adresselist" v-model="lieuDeDepose" required
+          <input type="text" list="adresselist" placeholder="adresse d'arrivée"  v-model="lieuDeDepose" required
             @input="onAddressInputChange(lieuDeDepose)">
           <datalist id="adresselist">
             <option v-for="(city, index) in AllAdresse" :key="index">{{ city }}</option>
@@ -229,6 +227,10 @@ export default {
 </script>
 
 <style scoped>
+input::placeholder {
+  opacity: 0.5; /* Set placeholder text to be half-transparent */
+}
+
 form {
   display: block;
 }
@@ -246,11 +248,12 @@ form {
 }
 
 .form-group input {
-  width: 100%;
+  width: 90%;
   font-size: 16px;
   border: 1px solid #ccc;
   border-radius: 4px;
-  margin-bottom: 16px;
+  margin-bottom: 20px;
+  padding: 0.5rem 0.5rem;
 }
 
 .progress-dots {

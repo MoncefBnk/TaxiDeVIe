@@ -57,8 +57,8 @@ passowrd-recovery {
 
 
 
-.form-group {
-  margin-bottom: 20px;
+.login-form {
+  padding: 30px;
 }
 
 .help-text {

@@ -55,7 +55,7 @@ export default {
 
 form {
 	flex: 1 1 0%;
-	padding: 8rem 1rem 1rem;
+	padding: 1rem 1rem 1rem;
 }
 
 h2 {
