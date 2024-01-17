@@ -98,7 +98,7 @@ export default {
           userType: this.register_form.userType,
           mail_address: this.register_form.email, //sur la premiere page du formulaire ok
           phone: this.register_form.phoneNumber,
-          adress: this.register_form.adress,
+          adress: this.register_form.address,
         };
 
         // Call the registerDriverWithAPI method directly
