@@ -1,16 +1,16 @@
 <template>
     <div>
-      <NavbarDriver />
+      <Validations />
     </div>
   </template>
   
   
   <script>
-  import NavbarDriver from '@/components/Driver/NavbarDriver.vue';
+  import Validations from '@/components/Driver/ApprovalDriver.vue';
 
   export default {
     components: {
-      NavbarDriver,
+      Validations
   },
   };
   </script>

@@ -7,44 +7,37 @@
       <h1>Ajouter un chauffeur</h1>
       <div class="form-content">
         <div v-if="currentPage === 0" class="step-content">
-          <h2>Étape 1 </h2>
+          <h2>Étape 1 : Informations d'authentification</h2>
           <div class="form-group">
-            <label>IdDriver</label>
-            <input type="text" v-model="register_form.id_driver" required>
+            <input type="text" v-model="register_form.id_driver" placeholder="Id du chauffeur crée" required>
           </div>
           <div class="form-group">
-            <label>Adresse e-mail</label>
-            <input type="email" v-model="register_form.email" required>
+            <input type="email" v-model="register_form.email" placeholder="Adresse e-mail" required>
           </div>
         </div>
-
+        
         <div v-if="currentPage === 1" class="step-content">
-          <h2>Étape 2</h2>
+          <h2>Étape 2 : Informations du chauffeur</h2>
           <div class="form-group">
-            <label>Prénom</label>
-            <input type="text" v-model="register_form.fullName" required>
+            <input type="text" v-model="register_form.fullName" placeholder="Prénom" required>
           </div>
           <div class="form-group">
-            <label>Nom</label>
-            <input type="text" v-model="register_form.lastName" required>
+            <input type="text" v-model="register_form.lastName" placeholder="Nom" required>
           </div>
           <div class="form-group">
-            <label>Identifiant de la voiture assignée</label>
-            <input type="number" v-model="register_form.id_car" required>
+            <input type="number" v-model="register_form.id_car" placeholder="Identifiant de la voiture assignée" required>
           </div>
           <div class="form-group">
-            <label>Matricule Chauffeur</label>
-            <input type="text" v-model="register_form.driver_matricule" required>
+            <input type="text" v-model="register_form.driver_matricule" placeholder="Matricule Chauffeur" required>
           </div>
           <div class="form-group">
-            <label>Adresse</label>
-            <input type="text" v-model="register_form.address" required>
+            <input type="text" v-model="register_form.address" placeholder="Adresse" required>
           </div>
           <div class="form-group">
-            <label>Numéro de téléphone</label>
-            <input type="tel" v-model="register_form.phoneNumber" required>
+            <input type="tel" v-model="register_form.phoneNumber" placeholder="Numéro de téléphone" required>
           </div>
         </div>
+        
 
         <div class="btn-group">
           <button v-if="currentPage > 0" @click="goToPage(currentPage - 1)" class="btn">Précédent</button>
@@ -141,6 +134,10 @@ export default {
 
 
 <style scoped>
+input::placeholder {
+  opacity: 0.5; /* Set placeholder text to be half-transparent */
+}
+
 .form-container {
   max-width: 500px;
   margin: 0 auto;
@@ -154,11 +151,12 @@ export default {
 }
 
 .form-group input {
-  width: 100%;
+  width: 90%;
   font-size: 16px;
   border: 1px solid #ccc;
   border-radius: 4px;
-  margin-bottom: 16px;
+  margin-bottom: 20px;
+  padding: 0.5rem 0.5rem;
 }
 
 .progress-dots {

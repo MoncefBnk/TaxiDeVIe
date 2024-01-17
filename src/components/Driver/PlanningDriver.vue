@@ -170,11 +170,14 @@
     flex-direction: column;
     align-items: center;
     margin-top: 20px;
+    padding: 15px;
   }
   
   .calendar {
     background-color: #fff;
     border-radius: 8px;
+    border-style: solid;
+    border-color: rgba(0, 0, 0, 0.1);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     margin: 0 auto;
