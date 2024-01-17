@@ -199,6 +199,7 @@ console.log(AllDisponibility)
   flex-direction: column;
   align-items: center;
   margin-top: 20px;
+  margin-inline: 15px;
 }
 
 .calendar {
