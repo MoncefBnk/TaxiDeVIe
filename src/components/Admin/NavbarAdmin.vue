@@ -10,7 +10,7 @@
         </div>
         <div class="nav-links" :class="{ 'show': isMenuOpen }">
           <router-link to="/admin" @click="closeMenu">Tableau de bord</router-link>
-          <router-link to="/displayAllDriver" @click="closeMenu">La liste des chaufffeurs</router-link>
+          <router-link to="/displayAllDriver" @click="closeMenu">La liste des chauffeurs</router-link>
           <router-link to="/upcomingAll" @click="closeMenu">Réservation <span class="notification-badge">({{ ReservationCount }})</span></router-link>
           <router-link to="#" @click="openLogoutConfirmation">Déconnexion</router-link>
         </div>

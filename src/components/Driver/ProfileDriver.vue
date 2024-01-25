@@ -3,7 +3,7 @@
 		<NavbarDriver />
 		<section class="forms">
 			<form class="profile">
-				<h2>Profile</h2>
+				<h2>Profil</h2>
 
 				<input type="text" placeholder="Prénom" v-model="clientInfo.name" />
 				<input type="text" placeholder="Nom" v-model="clientInfo.lastname" />
